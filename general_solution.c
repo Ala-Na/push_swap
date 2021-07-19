@@ -6,13 +6,13 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 21:29:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/19 23:59:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sort_piles(t_piles *piles)
+void	sort_pile_until_ten_elem(t_piles *piles)
 {
 	int	middle;
 	int	order;
@@ -37,9 +37,16 @@ void	sort_piles(t_piles *piles)
 				reverse_rotate_b(piles);
 		}
 		order = is_in_order(piles);
-		/*int i = 0;
-		while (i < piles->size_a + piles->size_b)
-			printf("%i\n", piles->content[i++]);
-		printf("\n");*/
 	}
+}
+
+void	sort_piles(t_piles *piles)
+{
+	int	order;
+
+	order = is_in_order(piles);
+	if (order == TRUE_A)
+		return ;
+	if (piles->size_a <= 10)
+		sort_pile_until_ten_elem(piles);
 }

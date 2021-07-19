@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 21:10:03 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/19 23:59:21 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("Error\n", 2);
 		return (1);
 	}
-	int i = 0;
+	/*int i = 0;
 	while (i < size_a)
 	{
 		printf("%i\n", list_a[i]);
 		i++;
-	}
+	}*/
 	if (size_a == 1 && list_a)
 	{
 		free(list_a);
@@ -44,12 +44,12 @@ int	main(int argc, char **argv)
 
 	}
 	sort_piles(piles);
-	i = 0;
+	/*i = 0;
 	while (i < piles->size_a)
 	{
 		printf("%i\n", piles->content[i]);
 		i++;
-	}
+	}*/
 	free(piles->content);
 	free(piles);
 	return (0);
