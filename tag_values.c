@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 14:00:59 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 21:11:31 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/19 21:24:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_piles	*tag_values(int *list, int size)
 
 	tags = malloc(sizeof(*tags));
 	if (!tags)
-		return (NULL)
+		return (NULL);
 	tags->tags = copy_array(list, size);
 	tags->size = size;
 	if (!tags->tags || merge_sort(list, 0, size - 1) == -1)
