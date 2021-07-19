@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:42:47 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/16 16:00:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/19 17:46:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,23 @@ t_order	is_in_order(t_piles *lst)
 	true_a = 1;
 	while (i + 1 < lst->size_a)
 	{
-		if (lst->content[i] > lst->content[i++ + 1])
+		if (lst->content[i] > lst->content[i+ 1])
 			true_a = 0;
+		i++;
 	}
 	i = lst->size_a;
 	true_b = 1;
 	while (i + 1 < lst->size_a + lst->size_b)
 	{
-		if (lst->content[i] < lst->content[i++ + 1])
+		if (lst->content[i] < lst->content[i+ 1])
 			true_b = 0;
+		i++;
 	}
-	if (true_a && true_b)
+	if (lst->size_a != 0 && lst->size_b != 0 && true_a && true_b)
 		return (TRUE_AB);
-	else if (true_a)
+	else if (lst->size_a != 0 && true_a)
 		return (TRUE_A);
-	else if (true_b)
+	else if (lst->size_b != 0 && true_b)
 		return (TRUE_B);
 	return (FALSE);
 }

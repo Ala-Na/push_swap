@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 14:00:59 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/16 16:06:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/19 21:11:31 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,27 @@ void	transform_values_to_tags(t_tags *tags)
 	}
 }
 
-t_tags	*tag_values(int *list, int size)
+t_piles	*tag_values(int *list, int size)
 {
+	t_piles	*piles;
 	t_tags	*tags;
 
 	tags = malloc(sizeof(*tags));
 	if (!tags)
-		return (NULL);
+		return (NULL)
 	tags->tags = copy_array(list, size);
 	tags->size = size;
 	if (!tags->tags || merge_sort(list, 0, size - 1) == -1)
 		return (NULL);
 	tags->values = list;
 	transform_values_to_tags(tags);
-	return (tags);
+	piles = malloc(sizeof(*piles));
+	if (!piles)
+		return (NULL);
+	piles->content = tags->tags;
+	piles->size_a = tags->size;
+	piles->size_b = 0;
+	free(tags->values);
+	free(tags);
+	return (piles);
 }

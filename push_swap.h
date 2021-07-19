@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/16 16:07:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/19 21:07:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,16 @@ typedef struct s_tags
 }	t_tags;
 
 /*
+** Function to sort arrays of 2 or 3 elements.
+*/
+void	sort_short_pile_b(t_piles *piles, int start);
+void	sort_short_pile_a(t_piles *piles);
+void	sort_shorts_piles(t_piles *piles);
+
+void	sort_top_piles(t_piles *piles, int middle);
+void	sort_piles(t_piles *piles);
+
+/*
 ** Functions to tag the original pile a inside a t_tags structure.
 */
 int		free_sub_arrays(int *tmp_1, int *tmp_2);
@@ -71,7 +81,7 @@ int		merge(int *list, int start, int center, int end);
 int		merge_sort(int *list, int start, int end);
 int		*copy_array(int *list, int size);
 void	transform_values_to_tags(t_tags *tags);
-t_tags	*tag_values(int *list, int size);
+t_piles	*tag_values(int *list, int size);
 
 /*
 ** Function to check order of both piles

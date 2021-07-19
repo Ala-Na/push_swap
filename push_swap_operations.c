@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 15:45:36 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/16 13:42:18 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/19 20:20:43 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	swap_a(t_piles *lst)
 		tmp = lst->content[0];
 		lst->content[0] = lst->content[1];
 		lst->content[1] = tmp;
+		ft_putstr_fd("sa\n", 1);
 	}
 }
 
@@ -33,6 +34,7 @@ void	swap_b(t_piles *lst)
 		tmp = lst->content[(lst->size_a)];
 		lst->content[lst->size_a] = lst->content[(lst->size_a) + 1];
 		lst->content[(lst->size_a) + 1] = tmp;
+		ft_putstr_fd("sb\n", 1);
 	}
 }
 
@@ -48,21 +50,21 @@ void	push_a(t_piles *lst)
 	int	tmp_1;
 	int	tmp_2;
 
-	if (lst->size_b > 0)
+	if (lst->size_b == 0)
+		return ;
+	i = 0;
+	tmp_1 = lst->content[i];
+	while ((i + 1) <= (lst->size_a))
 	{
-		i = 0;
-		tmp_1 = lst->content[i];
-		while ((i + 1) <= (lst->size_a))
-		{
-			tmp_2 = lst->content[i + 1];
-			lst->content[i + 1] = tmp_1;
-			tmp_1 = tmp_2;
-			i++;
-		}
-		lst->content[0] = tmp_1;
-		lst->size_a += 1;
-		lst->size_b -= 1;
+		tmp_2 = lst->content[i + 1];
+		lst->content[i + 1] = tmp_1;
+		tmp_1 = tmp_2;
+		i++;
 	}
+	lst->content[0] = tmp_1;
+	lst->size_a += 1;
+	lst->size_b -= 1;
+	ft_putstr_fd("pa\n", 1);
 }
 
 void	push_b(t_piles *lst)
@@ -71,19 +73,19 @@ void	push_b(t_piles *lst)
 	int	tmp_1;
 	int	tmp_2;
 
-	if (lst->size_a > 0)
+	if (lst->size_a == 0)
+		return ;
+	i = lst->size_a - 1;
+	tmp_1 = lst->content[0];
+	while (i >= 0)
 	{
-		i = lst->size_a - 1;
-		tmp_1 = lst->content[0];
-		while (i >= 0)
-		{
-			tmp_2 = lst->content[i];
-			lst->content[i] = tmp_1;
-			tmp_1 = tmp_2;
-			i--;
-		}
-		lst->content[lst->size_a - 1] = tmp_1;
-		lst->size_a -= 1;
-		lst->size_b += 1;
+		tmp_2 = lst->content[i];
+		lst->content[i] = tmp_1;
+		tmp_1 = tmp_2;
+		i--;
 	}
+	lst->content[lst->size_a - 1] = tmp_1;
+	lst->size_a -= 1;
+	lst->size_b += 1;
+	ft_putstr_fd("pb\n", 1);
 }
