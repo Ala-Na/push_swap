@@ -6,13 +6,13 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/20 22:46:27 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/20 23:34:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	keep_bitonic_b(t_piles *piles)
+/*void	keep_bitonic_b(t_piles *piles)
 {
 	int	i;
 	int	max_value;
@@ -82,6 +82,40 @@ void	insert_in_b(int value, t_piles *piles)
 			swap_b(piles);
 	}
 	keep_bitonic_b(piles);
+}*/
+
+/*
+** On recommence mais sans remettre la sequence en bitonique a chaque fois. 
+** Pour ça, on va comparer la value aux élements de b en faisant attention à la
+** position de la valeur max où le rapport risque de s'inverser.
+** Plusieurs cas figures :
+** - Value > valeur max ou < valeur min => insérer avant valeur max
+** - Value entre dessus de la pile et valeur max ou entre dessous pile et
+** valeur max.
+** Toujours faire attention à réaliser le moins de mouvement possible selon
+** la position d'insertion par rapport au centre de pile b.
+*/
+void	insert_in_b(int value, t_piles *piles)
+{
+	int	i;
+	int	max_value;
+	int	max_value_pos;
+	int	insertion;
+
+	i = piles->size_a;
+	max_value = piles->content[piles->size_a];
+	while (i < piles->size_a + piles->size_b)
+	{
+		if (piles->content[i] > max_value)
+		{
+			max_value = piles->content[i];
+			max_value_pos = i;
+		}
+		i++;
+	}
+	i = max_value_pos;
+	while (i < )
+
 }
 
 void	put_non_bitonic_as_first(t_piles *piles)
