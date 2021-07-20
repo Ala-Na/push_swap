@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/20 15:08:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/20 22:46:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	insert_in_b(int value, t_piles *piles)
 		swap_b(piles);
 	else if (distance > 1 && distance != piles->size_a + piles->size_b - 1)
 	{
-		while (distance > 0 && distance < piles->size_b)
+		while (distance > 1 && distance < piles->size_b)
 		{
 			if (pos_low_adj_value < (piles->size_b / 2))
 			{
@@ -110,11 +110,9 @@ void	put_non_bitonic_as_first(t_piles *piles)
 
 void	init_bitonic_like_sort(t_piles *piles)
 {
-	int	first;
 	int	order;
 	int	change;
 
-	first = 1;
 	order = is_in_order(piles);
 	while (order != TRUE_AB && piles->size_a > 2)
 	{
@@ -126,11 +124,8 @@ void	init_bitonic_like_sort(t_piles *piles)
 				swap_a(piles);
 			else if (piles->content[0] > piles->content[piles->size_a - 1])
 				rotate_a(piles);
-			else if (first == 1)
-			{
+			else if (piles->size_b == 0)
 				push_b(piles);
-				first = 0;
-			}
 			else
 				insert_in_b(piles->content[0], piles);
 		}
@@ -141,59 +136,31 @@ void	init_bitonic_like_sort(t_piles *piles)
 			if (change == 0)
 				insert_in_b(piles->content[0], piles);
 		}
+/*		int i = 0;
+		while (i < piles->size_a + piles->size_b)
+		{
+			printf("%i ", piles->content[i++]);
+			if (i - 1 < piles->size_a)
+				printf("in a, ");
+			else
+				printf("in b, ");
+		}
+		printf("\n");*/
 	}
 }
 
 void	insert_in_a(int value, t_piles *piles)
 {
-	int	distance;
-	int	size_a_before_modif;
-	int	pos_low_adj_value;
-
-	distance = 0;
-	while (value > piles->content[distance]
-			&& distance < piles->size_a)
-		distance++;
-	pos_low_adj_value = distance;
-	size_a_before_modif = piles->size_a;
-	int i = 0;
-	while (i < piles->size_a + piles->size_b)
+	reverse_rotate_a(piles);
+	while (piles->size_b > 0)
 	{
-		printf("%i ", piles->content[i++]);
-		if (i - 1 < piles->size_a)
-			printf("in a, ");
+		if (piles->content[piles->size_a] == piles->content[0] - 1)
+			push_a(piles);
 		else
-			printf("in b, ");
+			reverse_rotate_a(piles);
 	}
-	printf("\n");
-	printf("for %i distance is %i\n", value, distance);
-	if (distance <= 1 || distance == size_a_before_modif)
-	{
-		push_a(piles);
-	}
-	if (piles->size_a > 2 && distance == size_a_before_modif)
-		rotate_a(piles);
-	else if (distance == 1)
-		swap_a(piles);
-	else if (distance > 1 && distance != size_a_before_modif)
-	{
-		while (distance > 0 && distance < size_a_before_modif)
-		{
-			if (pos_low_adj_value < (size_a_before_modif / 2))
-			{
-				rotate_a(piles);
-				distance--;
-			}
-			else
-			{
-				reverse_rotate_a(piles);
-				distance++;
-			}
-		}
-		push_a(piles);
-		if (pos_low_adj_value < size_a_before_modif / 2)
-			swap_a(piles);
-	}
+	while (piles->content[0] > 0)
+		reverse_rotate_a(piles);
 }
 
 /* 
@@ -209,8 +176,20 @@ void	insert_in_a(int value, t_piles *piles)
 void	bitonic_like_sort(t_piles *piles)
 {
 	init_bitonic_like_sort(piles);
+	int i = 0;
+	while (i < piles->size_a + piles->size_b)
+	{
+		printf("%i ", piles->content[i++]);
+		if (i - 1 < piles->size_a)
+			printf("in a, ");
+		else
+			printf("in b, ");
+	}
+	printf("\n");
 	while (piles->size_b > 0)
 		insert_in_a(piles->content[piles->size_a], piles);
+	if (is_in_order(piles) != TRUE_A)
+		printf("ERROR !!!\n");
 }
 
 /*int	main()
@@ -235,13 +214,13 @@ void	bitonic_like_sort(t_piles *piles)
 	printf("\n");
 	bitonic_like_sort(piles);
 	i = 0;
-	while (i < size)
+	while (i < piles->size_a + piles->size_b)
 	{
 		printf("%i ", piles->content[i++]);
 		if (i - 1 < piles->size_a)
 			printf("in a, ");
 		else
-			printf("in b,");
+			printf("in b, ");
 	}
 	printf("\n");
 }*/

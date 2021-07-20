@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/20 14:52:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/20 22:46:37 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	sort_piles(t_piles *piles)
 		sort_pile_until_ten_elem(piles);
 	else 
 		bitonic_like_sort(piles);
-	int i = 0;
+	/*int i = 0;
 	while (i < piles->size_a + piles->size_b)
 	{
 		if (i < piles->size_a)
@@ -60,5 +60,5 @@ void	sort_piles(t_piles *piles)
 			printf("%i in b, ", piles->content[i]);
 		i++;
 	}
-	printf("\n");
+	printf("\n");*/
 }

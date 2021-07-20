@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 23:59:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/20 21:47:45 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	main(int argc, char **argv)
 		return (1);
 	if (check_and_extract_list(argc, argv, &list_a, &size_a) == -1 || !list_a)
 	{
+		if (list_a)
+			free(list_a);
 		ft_putstr_fd("Error\n", 2);
 		return (1);
 	}
@@ -39,6 +41,7 @@ int	main(int argc, char **argv)
 	piles = tag_values(list_a, size_a);
 	if (piles == NULL)
 	{
+		free(list_a);
 		ft_putstr_fd("Error\n", 2);
 		return (1);
 
