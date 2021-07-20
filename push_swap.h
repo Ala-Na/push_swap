@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 22:01:33 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/20 14:48:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ typedef struct s_tags
 	int	*tags;
 	int	size;
 }	t_tags;
+
+void	keep_bitonic_b(t_piles *piles);
+void	insert_in_b(int value, t_piles *piles);
+void	put_non_bitonic_as_first(t_piles *piles);
+void	init_bitonic_like_sort(t_piles *piles);
+void	insert_in_a(int value, t_piles *piles);
+void	bitonic_like_sort(t_piles *piles);
 
 /*
 ** Function to sort arrays of 2 or 3 elements.

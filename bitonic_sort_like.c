@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/20 13:38:56 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/20 15:08:42 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	insert_in_b(int value, t_piles *piles)
 		rotate_b(piles);
 	else if (distance == 1)
 		swap_b(piles);
-	else if (distance > 1)
+	else if (distance > 1 && distance != piles->size_a + piles->size_b - 1)
 	{
 		while (distance > 0 && distance < piles->size_b)
 		{
@@ -144,6 +144,58 @@ void	init_bitonic_like_sort(t_piles *piles)
 	}
 }
 
+void	insert_in_a(int value, t_piles *piles)
+{
+	int	distance;
+	int	size_a_before_modif;
+	int	pos_low_adj_value;
+
+	distance = 0;
+	while (value > piles->content[distance]
+			&& distance < piles->size_a)
+		distance++;
+	pos_low_adj_value = distance;
+	size_a_before_modif = piles->size_a;
+	int i = 0;
+	while (i < piles->size_a + piles->size_b)
+	{
+		printf("%i ", piles->content[i++]);
+		if (i - 1 < piles->size_a)
+			printf("in a, ");
+		else
+			printf("in b, ");
+	}
+	printf("\n");
+	printf("for %i distance is %i\n", value, distance);
+	if (distance <= 1 || distance == size_a_before_modif)
+	{
+		push_a(piles);
+	}
+	if (piles->size_a > 2 && distance == size_a_before_modif)
+		rotate_a(piles);
+	else if (distance == 1)
+		swap_a(piles);
+	else if (distance > 1 && distance != size_a_before_modif)
+	{
+		while (distance > 0 && distance < size_a_before_modif)
+		{
+			if (pos_low_adj_value < (size_a_before_modif / 2))
+			{
+				rotate_a(piles);
+				distance--;
+			}
+			else
+			{
+				reverse_rotate_a(piles);
+				distance++;
+			}
+		}
+		push_a(piles);
+		if (pos_low_adj_value < size_a_before_modif / 2)
+			swap_a(piles);
+	}
+}
+
 /* 
 ** Pile a should be in an increasing bitonic order, while pile b should be in a
 ** decreasing bitonic order. Pile a may be a non bitonic sequence but pile b 
@@ -157,18 +209,22 @@ void	init_bitonic_like_sort(t_piles *piles)
 void	bitonic_like_sort(t_piles *piles)
 {
 	init_bitonic_like_sort(piles);
-	/* Reste a parcourir a et inserer element de b au fur et a mesure puis remettre plus petit elem en 1ere pos
+	while (piles->size_b > 0)
+		insert_in_a(piles->content[piles->size_a], piles);
 }
 
-int	main()
+/*int	main()
 {
-	int size = 5;
+	int size = 8;
 	int *array = malloc(sizeof(*array) * size);
-	array[0] = 1;
-	array[1] = 5;
+	array[0] = 3;
+	array[1] = 4;
 	array[2] = 2;
-	array[3] = 4;
-	array[4] = 3;
+	array[3] = 8;
+	array[4] = 5;
+	array[5] = 6;
+	array[6] = 1;
+	array[7] = 7;
 	t_piles *piles = malloc(sizeof(*piles));
 	piles->content = array;
 	piles->size_a = size;
@@ -177,15 +233,15 @@ int	main()
 	while (i < size)
 		printf("%i ", piles->content[i++]);
 	printf("\n");
-	init_bitonic_like_sort(piles);
+	bitonic_like_sort(piles);
 	i = 0;
 	while (i < size)
 	{
-		if (i == piles->size_a)
-			printf("in a\n");
 		printf("%i ", piles->content[i++]);
+		if (i - 1 < piles->size_a)
+			printf("in a, ");
+		else
+			printf("in b,");
 	}
-	printf("in b\n");
 	printf("\n");
-}
-
+}*/
