@@ -6,19 +6,19 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:37:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 20:21:19 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 23:42:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rotate_a(t_piles *lst)
+void	rotate_a(t_piles *lst, t_operations **ope)
 {
 	int	i;
 	int	tmp_1;
 	int	tmp_2;
 
-	if (lst->size_a == 0)
+	if (lst->size_a <= 1)
 		return ;
 	i = lst->size_a - 1;
 	tmp_1 = lst->content[i];
@@ -30,16 +30,16 @@ void	rotate_a(t_piles *lst)
 		i--;
 	}
 	lst->content[lst->size_a - 1] = tmp_1;
-	ft_putstr_fd("ra\n", 1);
+	add_op(ope, new_op("ra\n"));
 }
 
-void	rotate_b(t_piles *lst)
+void	rotate_b(t_piles *lst, t_operations **ope)
 {
 	int	i;
 	int	tmp_1;
 	int	tmp_2;
 
-	if (lst->size_b == 0)
+	if (lst->size_b <= 1)
 		return ;
 	i = lst->size_a + lst->size_b - 1;
 	tmp_1 = lst->content[i];
@@ -51,11 +51,5 @@ void	rotate_b(t_piles *lst)
 		i--;
 	}
 	lst->content[lst->size_a + lst->size_b - 1] = tmp_1;
-	ft_putstr_fd("rb\n", 1);
-}
-
-void	rotate_r(t_piles *lst)
-{
-	rotate_a(lst);
-	rotate_b(lst);
+	add_op(ope, new_op("rb\n"));
 }

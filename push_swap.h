@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 11:54:40 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 23:46:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,32 @@ typedef struct s_tags
 	int	size;
 }	t_tags;
 
-void	keep_bitonic_b(t_piles *piles);
-void	insert_in_b(int value, t_piles *piles);
-void	put_non_bitonic_as_first(t_piles *piles);
-void	init_bitonic_like_sort(t_piles *piles);
-void	insert_in_a(int value, t_piles *piles);
-void	bitonic_like_sort(t_piles *piles);
+/*
+** Structure to keep in memory all operations before writing them.
+*/
+typedef struct s_operations
+{
+	char			*operation;
+	struct s_operations	*next;
+}	t_operations;
+
+void	get_monotonic_b(t_piles *piles, t_operations **ope);
+void	insert_in_b(int value, t_piles *piles, t_operations **ope);
+void	put_non_bitonic_as_first(t_piles *piles, t_operations **ope);
+void	init_bitonic_like_sort(t_piles *piles, t_operations **ope);
+void	insert_in_a(int value, t_piles *piles, t_operations **ope);
+void	bitonic_like_sort(t_piles *piles, t_operations **ope);
 
 /*
 ** Function to sort arrays of 2 or 3 elements.
 */
-void	sort_short_pile_b(t_piles *piles, int start);
-void	sort_short_pile_a(t_piles *piles);
-void	sort_shorts_piles(t_piles *piles);
+void	sort_short_pile_b(t_piles *piles, int start, t_operations **ope);
+void	sort_short_pile_a(t_piles *piles, t_operations **ope);
+void	sort_shorts_piles(t_piles *piles, t_operations **ope);
 
-void	sort_top_piles(t_piles *piles, int middle);
-void	sort_pile_until_five_elem(t_piles *piles);
-void	sort_piles(t_piles *piles);
+void	sort_top_piles(t_piles *piles, int middle, t_operations **ope);
+void	sort_pile_until_five_elem(t_piles *piles, t_operations **ope);
+int		sort_piles(t_piles *piles, t_operations **ope);
 
 /*
 ** Functions to tag the original pile a inside a t_tags structure.
@@ -96,20 +105,21 @@ t_piles	*tag_values(int *list, int size);
 */
 t_order	is_in_order(t_piles *lst);
 
+t_operations	*new_op(char *name_op);
+void	add_op(t_operations **ope, t_operations *new_op);
+
+
 /*
 ** Operations functions
 */
-void	swap_a(t_piles *lst);
-void	swap_b(t_piles *lst);
-void	swap_s(t_piles *lst);
-void	push_a(t_piles *lst);
-void	push_b(t_piles *lst);
-void	rotate_a(t_piles *lst);
-void	rotate_b(t_piles *lst);
-void	rotate_r(t_piles *lst);
-void	reverse_rotate_a(t_piles *lst);
-void	reverse_rotate_b(t_piles *lst);
-void	reverse_rotate_r(t_piles *lst);
+void	swap_a(t_piles *lst, t_operations **ope);
+void	swap_b(t_piles *lst, t_operations **ope);
+void	push_a(t_piles *lst, t_operations **ope);
+void	push_b(t_piles *lst, t_operations **ope);
+void	rotate_a(t_piles *lst, t_operations **ope);
+void	rotate_b(t_piles *lst, t_operations **ope);
+void	reverse_rotate_a(t_piles *lst, t_operations **ope);
+void	reverse_rotate_b(t_piles *lst, t_operations **ope);
 
 /*
 ** Parsing functions

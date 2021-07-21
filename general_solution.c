@@ -6,13 +6,13 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 11:54:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 23:40:58 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sort_pile_until_five_elem(t_piles *piles)
+void	sort_pile_until_five_elem(t_piles *piles, t_operations **ope)
 {
 	int	middle;
 	int	order;
@@ -22,43 +22,34 @@ void	sort_pile_until_five_elem(t_piles *piles)
 	while (!(order == TRUE_A && piles->size_b == 0))
 	{
 		if (order == TRUE_AB && piles->size_b > 0)
-			push_a(piles);
+			push_a(piles, ope);
 		if (order != TRUE_AB && ((order != TRUE_A && (piles->size_a == 3 || piles->size_a == 2)) || (order != TRUE_B && (piles->size_b == 3 || piles->size_b == 2))))
-			sort_shorts_piles(piles);
+			sort_shorts_piles(piles, ope);
 		else if (order != TRUE_AB  && order != TRUE_A && piles->size_a > 0 && piles->content[0] < middle)
-			push_b(piles);
+			push_b(piles, ope);
 		else
 		{
-			sort_top_piles(piles, middle);
+			sort_top_piles(piles, middle, ope);
 			order = is_in_order(piles);
 			if (order != TRUE_AB && order != TRUE_A)
-				reverse_rotate_a(piles);
+				reverse_rotate_a(piles, ope);
 			if (order != TRUE_AB && order != TRUE_B)
-				reverse_rotate_b(piles);
+				reverse_rotate_b(piles, ope);
 		}
 		order = is_in_order(piles);
 	}
 }
 
-void	sort_piles(t_piles *piles)
+int	sort_piles(t_piles *piles, t_operations **ope)
 {
 	int	order;
 
 	order = is_in_order(piles);
 	if (order == TRUE_A)
-		return ;
+		return (0);
 	if (piles->size_a <= 5)
-		sort_pile_until_five_elem(piles);
+		sort_pile_until_five_elem(piles, ope);
 	else 
-		bitonic_like_sort(piles);
-	/*int i = 0;
-	while (i < piles->size_a + piles->size_b)
-	{
-		if (i < piles->size_a)
-			printf("%i in a, ", piles->content[i]);
-		else
-			printf("%i in b, ", piles->content[i]);
-		i++;
-	}
-	printf("\n");*/
+		bitonic_like_sort(piles, ope);
+	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 15:45:36 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 20:20:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 23:41:51 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap_a(t_piles *lst)
+void	swap_a(t_piles *lst, t_operations **ope)
 {
 	int	tmp;
 
@@ -21,11 +21,11 @@ void	swap_a(t_piles *lst)
 		tmp = lst->content[0];
 		lst->content[0] = lst->content[1];
 		lst->content[1] = tmp;
-		ft_putstr_fd("sa\n", 1);
+		add_op(ope, new_op("sa\n"));
 	}
 }
 
-void	swap_b(t_piles *lst)
+void	swap_b(t_piles *lst, t_operations **ope)
 {
 	int	tmp;
 
@@ -34,17 +34,11 @@ void	swap_b(t_piles *lst)
 		tmp = lst->content[(lst->size_a)];
 		lst->content[lst->size_a] = lst->content[(lst->size_a) + 1];
 		lst->content[(lst->size_a) + 1] = tmp;
-		ft_putstr_fd("sb\n", 1);
+		add_op(ope, new_op("sb\n"));
 	}
 }
 
-void	swap_s(t_piles *lst)
-{
-	swap_a(lst);
-	swap_b(lst);
-}
-
-void	push_a(t_piles *lst)
+void	push_a(t_piles *lst, t_operations **ope)
 {
 	int	i;
 	int	tmp_1;
@@ -64,10 +58,10 @@ void	push_a(t_piles *lst)
 	lst->content[0] = tmp_1;
 	lst->size_a += 1;
 	lst->size_b -= 1;
-	ft_putstr_fd("pa\n", 1);
+	add_op(ope, new_op("pa\n"));
 }
 
-void	push_b(t_piles *lst)
+void	push_b(t_piles *lst, t_operations **ope)
 {
 	int	i;
 	int	tmp_1;
@@ -87,5 +81,5 @@ void	push_b(t_piles *lst)
 	lst->content[lst->size_a - 1] = tmp_1;
 	lst->size_a -= 1;
 	lst->size_b += 1;
-	ft_putstr_fd("pb\n", 1);
+	add_op(ope, new_op("pb\n"));
 }

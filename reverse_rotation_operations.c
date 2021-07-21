@@ -6,19 +6,19 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:39:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 20:22:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 23:42:30 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	reverse_rotate_a(t_piles *lst)
+void	reverse_rotate_a(t_piles *lst, t_operations **ope)
 {
 	int	i;
 	int	tmp_1;
 	int	tmp_2;
 
-	if (lst->size_a > 0)
+	if (lst->size_a > 1)
 	{
 		i = 0;
 		tmp_1 = lst->content[i];
@@ -30,17 +30,17 @@ void	reverse_rotate_a(t_piles *lst)
 			i++;
 		}
 		lst->content[0] = tmp_1;
-		ft_putstr_fd("rra\n", 1);
+		add_op(ope, new_op("rra\n"));
 	}
 }
 
-void	reverse_rotate_b(t_piles *lst)
+void	reverse_rotate_b(t_piles *lst, t_operations **ope)
 {
 	int	i;
 	int	tmp_1;
 	int	tmp_2;
 
-	if (lst->size_b > 0)
+	if (lst->size_b > 1)
 	{
 		i = lst->size_a;
 		tmp_1 = lst->content[i];
@@ -52,12 +52,6 @@ void	reverse_rotate_b(t_piles *lst)
 			i++;
 		}
 		lst->content[lst->size_a] = tmp_1;
-		ft_putstr_fd("rrb\n", 1);
+		add_op(ope, new_op("rrb\n"));
 	}
-}
-
-void	reverse_rotate_r(t_piles *lst)
-{
-	reverse_rotate_a(lst);
-	reverse_rotate_b(lst);
 }

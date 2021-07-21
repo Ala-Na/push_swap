@@ -6,13 +6,16 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 17:49:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 23:45:19 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	keep_bitonic_b(t_piles *piles)
+/*
+** Function to get b from bitonic to a monotonic decreasing sequence
+*/
+void	get_monotonic_b(t_piles *piles, t_operations **ope)
 {
 	int	i;
 	int	max_value;
@@ -34,67 +37,18 @@ void	keep_bitonic_b(t_piles *piles)
 	{
 		while (max_value_pos != 0)
 		{
-			rotate_b(piles);
+			rotate_b(piles, ope);
 			max_value_pos--;
 		}
 		return ;
 	}
 	while (max_value_pos != piles->size_b)
 	{
-		reverse_rotate_b(piles);
+		reverse_rotate_b(piles, ope);
 		max_value_pos++;
 	}
 }
-/*
-void	insert_in_b(int value, t_piles *piles)
-{
-	int	distance;
-	int	pos_low_adj_value;
 
-	distance = 0;
-	while (value < piles->content[piles->size_a + distance]
-			&& piles->size_a + distance < piles->size_a + piles->size_b)
-		distance++;
-	pos_low_adj_value = piles->size_a + distance;
-	if (distance <= 1 || distance == piles->size_a + piles->size_b - 1)
-		push_b(piles);
-	if (piles->size_b > 2 && distance == piles->size_a + piles->size_b - 1)
-		rotate_b(piles);
-	else if (distance == 1)
-		swap_b(piles);
-	else if (distance > 1 && distance != piles->size_a + piles->size_b - 1)
-	{
-		while (distance > 1 && distance < piles->size_b)
-		{
-			if (pos_low_adj_value < (piles->size_b / 2))
-			{
-				rotate_b(piles);
-				distance--;
-			}
-			else
-			{
-				reverse_rotate_b(piles);
-				distance++;
-			}
-		}
-		push_b(piles);
-		if (pos_low_adj_value < piles->size_b / 2)
-			swap_b(piles);
-	}
-	keep_bitonic_b(piles);
-}*/
-
-/*
-** On recommence mais sans remettre la sequence en bitonique a chaque fois. 
-** Pour ça, on va comparer la value aux élements de b en faisant attention à la
-** position de la valeur max où le rapport risque de s'inverser.
-** Plusieurs cas figures :
-** - Value > valeur max ou < valeur min => insérer avant valeur max
-** - Value entre dessus de la pile et valeur max ou entre dessous pile et
-** valeur max.
-** Toujours faire attention à réaliser le moins de mouvement possible selon
-** la position d'insertion par rapport au centre de pile b.
-*/
 int		find_insertion_pos_in_b(int value, t_piles *piles)
 {
 	int	i;
@@ -131,7 +85,7 @@ int		find_insertion_pos_in_b(int value, t_piles *piles)
 	return (insertion_pos);
 }
 
-void	insert_in_b(int value, t_piles *piles)
+void	insert_in_b(int value, t_piles *piles, t_operations **ope)
 {
 	int	insertion_pos;
 	int	middle;
@@ -139,20 +93,20 @@ void	insert_in_b(int value, t_piles *piles)
 	insertion_pos = find_insertion_pos_in_b(value, piles) - piles->size_a;
 	middle = (piles->size_b) / 2;
 	if (insertion_pos == -1 || insertion_pos == piles->size_b)
-		push_b(piles);
+		push_b(piles, ope);
 	else if (insertion_pos < middle)
 	{
 		while (insertion_pos-- > 0)
-			rotate_b(piles);
-		push_b(piles);
+			rotate_b(piles, ope);
+		push_b(piles, ope);
 	}
 	else
 	{
 		while (insertion_pos++ < piles->size_b)
-			reverse_rotate_b(piles);
-		push_b(piles);
+			reverse_rotate_b(piles, ope);
+		push_b(piles, ope);
 	}
-	int i = 0;
+	/*int i = 0;
 	while (i < piles->size_a + piles->size_b)
 	{
 		printf("%i ", piles->content[i++]);
@@ -162,10 +116,10 @@ void	insert_in_b(int value, t_piles *piles)
 			printf("in b, ");
 		if (i == piles->size_a + piles->size_b)
 			printf("\n");
-	}
+	}*/
 }
 
-void	put_non_bitonic_as_first(t_piles *piles)
+void	put_non_bitonic_as_first(t_piles *piles, t_operations **ope)
 {
 	int	i;
 	int	j;
@@ -180,16 +134,16 @@ void	put_non_bitonic_as_first(t_piles *piles)
 	if (piles->size_a - j < i)
 	{
 		while (j++ < piles->size_a)
-			reverse_rotate_a(piles);
+			reverse_rotate_a(piles, ope);
 	}
 	else
 	{
 		while (i-- > 0)
-			rotate_a(piles);
+			rotate_a(piles, ope);
 	}
 }
 
-void	init_bitonic_like_sort(t_piles *piles)
+void	init_bitonic_like_sort(t_piles *piles, t_operations **ope)
 {
 	int	order;
 	int	change;
@@ -202,22 +156,37 @@ void	init_bitonic_like_sort(t_piles *piles)
 		{
 			change = 1;
 			if (piles->size_a > 2 && piles->content[0] < piles->content[2])
-				swap_a(piles);
+				swap_a(piles, ope);
 			else if (piles->content[0] > piles->content[piles->size_a - 1])
-				rotate_a(piles);
+				rotate_a(piles, ope);
+			else if (piles->content[0] < piles->content[piles->size_a - 1]
+				&& piles->content[0] > piles->content[piles->size_a - 2])
+			{
+				reverse_rotate_a(piles, ope);
+				swap_a(piles, ope);
+			}
+			else if (piles->content[0] < piles->content[piles->size_a - 1]
+				&& piles->content[0] < piles->content[piles->size_a - 2]
+				&& piles->content[0] > piles->content[piles->size_a - 3])
+			{
+				reverse_rotate_a(piles, ope);
+				swap_a(piles, ope);
+				reverse_rotate_a(piles, ope);
+				swap_a(piles, ope);
+			}
 			else if (piles->size_b == 0)
-				push_b(piles);
+				push_b(piles, ope);
 			else
-				insert_in_b(piles->content[0], piles);
+				insert_in_b(piles->content[0], piles, ope);
 		}
 		order = is_in_order(piles);
 		if (order != TRUE_AB && order != TRUE_A)
 		{
-			put_non_bitonic_as_first(piles);
+			put_non_bitonic_as_first(piles, ope);
 			if (change == 0 && piles->size_b == 0)
-				push_b(piles);
+				push_b(piles, ope);
 			else if (change == 0)
-				insert_in_b(piles->content[0], piles);
+				insert_in_b(piles->content[0], piles, ope);
 		}
 		/*int i = 0;
 		while (i < piles->size_a + piles->size_b && piles->size_b != 4)
@@ -233,9 +202,9 @@ void	init_bitonic_like_sort(t_piles *piles)
 	}
 }
 
-void	insert_in_a(int value, t_piles *piles)
+void	insert_in_a(int value, t_piles *piles, t_operations **ope)
 {
-	reverse_rotate_a(piles);
+	reverse_rotate_a(piles, ope);
 	while (piles->size_b > 0)
 	{
 /*		int i = 0;
@@ -249,12 +218,12 @@ void	insert_in_a(int value, t_piles *piles)
 		}
 		printf("\n");*/
 		if (piles->content[piles->size_a] == piles->content[0] - 1)
-			push_a(piles);
+			push_a(piles, ope);
 		else
-			reverse_rotate_a(piles);
+			reverse_rotate_a(piles, ope);
 	}
 	while (piles->content[0] > 0)
-		reverse_rotate_a(piles);
+		reverse_rotate_a(piles, ope);
 }
 
 /* 
@@ -267,9 +236,9 @@ void	insert_in_a(int value, t_piles *piles)
 ** by reverse rotating a. When b is empty, we continue to reverse rotating or 
 ** rotating a (dependig which is shortest ) until the first element is on top.
 */
-void	bitonic_like_sort(t_piles *piles)
+void	bitonic_like_sort(t_piles *piles, t_operations **ope)
 {
-	init_bitonic_like_sort(piles);
+	init_bitonic_like_sort(piles, ope);
 /*	int i = 0;
 	while (i < piles->size_a + piles->size_b)
 	{
@@ -280,42 +249,9 @@ void	bitonic_like_sort(t_piles *piles)
 			printf("in b, ");
 	}
 	printf("\n");*/
-	keep_bitonic_b(piles);
+	get_monotonic_b(piles, ope);
 	while (piles->size_b > 0)
-		insert_in_a(piles->content[piles->size_a], piles);
+		insert_in_a(piles->content[piles->size_a], piles, ope);
 	if (is_in_order(piles) != TRUE_A)
 		printf("ERROR !!!\n");
 }
-
-/*int	main()
-{
-	int size = 8;
-	int *array = malloc(sizeof(*array) * size);
-	array[0] = 3;
-	array[1] = 4;
-	array[2] = 2;
-	array[3] = 8;
-	array[4] = 5;
-	array[5] = 6;
-	array[6] = 1;
-	array[7] = 7;
-	t_piles *piles = malloc(sizeof(*piles));
-	piles->content = array;
-	piles->size_a = size;
-	piles->size_b = 0;
-	int i = 0;
-	while (i < size)
-		printf("%i ", piles->content[i++]);
-	printf("\n");
-	bitonic_like_sort(piles);
-	i = 0;
-	while (i < piles->size_a + piles->size_b)
-	{
-		printf("%i ", piles->content[i++]);
-		if (i - 1 < piles->size_a)
-			printf("in a, ");
-		else
-			printf("in b, ");
-	}
-	printf("\n");
-}*/

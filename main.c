@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/20 21:47:45 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 23:39:56 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int	main(int argc, char **argv)
 {
-	t_piles *piles;
-	int	*list_a;
-	int	size_a;
+	t_operations	*ope;
+	t_piles		*piles;
+	int			*list_a;
+	int			size_a;
 
 	if (argc < 2)
 		return (1);
@@ -27,33 +28,26 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("Error\n", 2);
 		return (1);
 	}
-	/*int i = 0;
-	while (i < size_a)
-	{
-		printf("%i\n", list_a[i]);
-		i++;
-	}*/
 	if (size_a == 1 && list_a)
 	{
 		free(list_a);
 		return (0);
 	}
 	piles = tag_values(list_a, size_a);
-	if (piles == NULL)
+	if (piles == NULL || sort_piles(piles, &ope) == -1)
 	{
 		free(list_a);
+		if (piles->content)
+			free(piles->content);
+		if (piles)
+			free(piles);
+		if (ope)
+			free(ope);
 		ft_putstr_fd("Error\n", 2);
 		return (1);
-
 	}
-	sort_piles(piles);
-	/*i = 0;
-	while (i < piles->size_a)
-	{
-		printf("%i\n", piles->content[i]);
-		i++;
-	}*/
 	free(piles->content);
 	free(piles);
+	free(ope);
 	return (0);
 }
