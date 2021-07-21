@@ -6,13 +6,13 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/20 22:46:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 11:54:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sort_pile_until_ten_elem(t_piles *piles)
+void	sort_pile_until_five_elem(t_piles *piles)
 {
 	int	middle;
 	int	order;
@@ -47,8 +47,8 @@ void	sort_piles(t_piles *piles)
 	order = is_in_order(piles);
 	if (order == TRUE_A)
 		return ;
-	if (piles->size_a <= 10)
-		sort_pile_until_ten_elem(piles);
+	if (piles->size_a <= 5)
+		sort_pile_until_five_elem(piles);
 	else 
 		bitonic_like_sort(piles);
 	/*int i = 0;

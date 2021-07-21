@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/20 14:48:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 11:54:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	sort_short_pile_a(t_piles *piles);
 void	sort_shorts_piles(t_piles *piles);
 
 void	sort_top_piles(t_piles *piles, int middle);
-void	sort_pile_until_ten_elem(t_piles *piles);
+void	sort_pile_until_five_elem(t_piles *piles);
 void	sort_piles(t_piles *piles);
 
 /*
