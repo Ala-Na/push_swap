@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 15:46:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 15:58:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void	init_bitonic_like_sort(t_piles *piles)
 	int	change;
 
 	order = is_in_order(piles);
-	while (order != TRUE_AB && piles->size_a > 2)
+	while (order != TRUE_A && piles->size_a > 2)
 	{
 		change = 0;
 		while (piles->size_a > 1 && piles->content[0] > piles->content[1])
@@ -207,7 +207,7 @@ void	init_bitonic_like_sort(t_piles *piles)
 			else if (change == 0)
 				insert_in_b(piles->content[0], piles);
 		}
-	/*	int i = 0;
+		int i = 0;
 		while (i < piles->size_a + piles->size_b && piles->size_b != 6)
 		{
 			printf("%i ", piles->content[i++]);
@@ -216,8 +216,7 @@ void	init_bitonic_like_sort(t_piles *piles)
 			else
 				printf("in b, ");
 		}
-		if (piles->size_b != 6)
-			printf("\n");*/
+		printf("\n");
 	}
 }
 
@@ -226,6 +225,16 @@ void	insert_in_a(int value, t_piles *piles)
 	reverse_rotate_a(piles);
 	while (piles->size_b > 0)
 	{
+		int i = 0;
+		while (i < piles->size_a + piles->size_b)
+		{
+			printf("%i ", piles->content[i++]);
+			if (i - 1 < piles->size_a)
+				printf("in a, ");
+			else
+				printf("in b, ");
+		}
+		printf("\n");
 		if (piles->content[piles->size_a] == piles->content[0] - 1)
 			push_a(piles);
 		else
