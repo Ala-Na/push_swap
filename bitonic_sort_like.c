@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 15:58:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/21 17:49:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,34 +99,35 @@ int		find_insertion_pos_in_b(int value, t_piles *piles)
 {
 	int	i;
 	int	max_value_pos;
+	int	min_value_pos;
 	int	insertion_pos;
 
 	i = piles->size_a - 1;
 	insertion_pos = -1;
 	max_value_pos = piles->size_a;
+	min_value_pos = piles->size_a;
 	while (++i < piles->size_a + piles->size_b)
 	{
 		if (piles->content[i] > piles->content[max_value_pos])
 			max_value_pos = i;
+		if (piles->content[i] < piles->content[min_value_pos])
+			min_value_pos = i;
 	}
 	i = piles->size_a - 1;
-	while (++i < piles->size_a + piles->size_b)
+	if (value > piles->content[max_value_pos] || value < piles->content[min_value_pos])
+		insertion_pos = max_value_pos;
+	else if (value > piles->content[piles->size_a]
+		&& value < piles->content[piles->size_a + piles->size_b - 1])
+		insertion_pos = piles->size_a;
+	else
 	{
-		if (i != max_value_pos && value < piles->content[i] && value > piles->content[i + 1])
+		while (i + 1 < piles->size_a + piles->size_b)
 		{
-			insertion_pos = i;
-			break ;
-		}
-		else if (i == max_value_pos && piles->size_b > 1 && value < piles->content[i - 1])
-		{
-			insertion_pos = i - 1;
-			break ;
+			if (value < piles->content[i] && value > piles->content[i + 1])
+				insertion_pos = i + 1;
+			i++;
 		}
 	}
-	if (value < piles->content[piles->size_a + piles->size_b - 1] && value > piles->content[piles->size_a])
-		insertion_pos = piles->size_a - 1;
-	else if (insertion_pos == -1)
-		insertion_pos = max_value_pos - 1;
 	return (insertion_pos);
 }
 
@@ -137,11 +138,11 @@ void	insert_in_b(int value, t_piles *piles)
 
 	insertion_pos = find_insertion_pos_in_b(value, piles) - piles->size_a;
 	middle = (piles->size_b) / 2;
-	if (insertion_pos == -1 || insertion_pos == piles->size_b - 1)
+	if (insertion_pos == -1 || insertion_pos == piles->size_b)
 		push_b(piles);
 	else if (insertion_pos < middle)
 	{
-		while (insertion_pos-- >= 0)
+		while (insertion_pos-- > 0)
 			rotate_b(piles);
 		push_b(piles);
 	}
@@ -150,6 +151,17 @@ void	insert_in_b(int value, t_piles *piles)
 		while (insertion_pos++ < piles->size_b)
 			reverse_rotate_b(piles);
 		push_b(piles);
+	}
+	int i = 0;
+	while (i < piles->size_a + piles->size_b)
+	{
+		printf("%i ", piles->content[i++]);
+		if (i - 1 < piles->size_a)
+			printf("in a, ");
+		else
+			printf("in b, ");
+		if (i == piles->size_a + piles->size_b)
+			printf("\n");
 	}
 }
 
@@ -183,7 +195,7 @@ void	init_bitonic_like_sort(t_piles *piles)
 	int	change;
 
 	order = is_in_order(piles);
-	while (order != TRUE_A && piles->size_a > 2)
+	while (order != TRUE_A && order != TRUE_AB && piles->size_a > 2)
 	{
 		change = 0;
 		while (piles->size_a > 1 && piles->content[0] > piles->content[1])
@@ -207,16 +219,17 @@ void	init_bitonic_like_sort(t_piles *piles)
 			else if (change == 0)
 				insert_in_b(piles->content[0], piles);
 		}
-		int i = 0;
-		while (i < piles->size_a + piles->size_b && piles->size_b != 6)
+		/*int i = 0;
+		while (i < piles->size_a + piles->size_b && piles->size_b != 4)
 		{
 			printf("%i ", piles->content[i++]);
 			if (i - 1 < piles->size_a)
 				printf("in a, ");
 			else
 				printf("in b, ");
-		}
-		printf("\n");
+			if (i == piles->size_a + piles->size_b)
+				printf("\n");
+		}*/
 	}
 }
 
@@ -225,7 +238,7 @@ void	insert_in_a(int value, t_piles *piles)
 	reverse_rotate_a(piles);
 	while (piles->size_b > 0)
 	{
-		int i = 0;
+/*		int i = 0;
 		while (i < piles->size_a + piles->size_b)
 		{
 			printf("%i ", piles->content[i++]);
@@ -234,7 +247,7 @@ void	insert_in_a(int value, t_piles *piles)
 			else
 				printf("in b, ");
 		}
-		printf("\n");
+		printf("\n");*/
 		if (piles->content[piles->size_a] == piles->content[0] - 1)
 			push_a(piles);
 		else
