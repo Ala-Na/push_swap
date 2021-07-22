@@ -6,11 +6,35 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 23:45:19 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/22 18:02:27 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	final_insert_in_a(int value, t_piles *piles, t_operations **ope)
+{
+	reverse_rotate_a(piles, ope);
+	while (piles->size_b > 0)
+	{
+/*		int i = 0;
+		while (i < piles->size_a + piles->size_b)
+		{
+			printf("%i ", piles->content[i++]);
+			if (i - 1 < piles->size_a)
+				printf("in a, ");
+			else
+				printf("in b, ");
+		}
+		printf("\n");*/
+		if (piles->content[piles->size_a] == piles->content[0] - 1)
+			push_a(piles, ope);
+		else
+			reverse_rotate_a(piles, ope);
+	}
+	while (piles->content[0] > 0)
+		reverse_rotate_a(piles, ope);
+}
 
 /*
 ** Function to get b from bitonic to a monotonic decreasing sequence
@@ -49,76 +73,6 @@ void	get_monotonic_b(t_piles *piles, t_operations **ope)
 	}
 }
 
-int		find_insertion_pos_in_b(int value, t_piles *piles)
-{
-	int	i;
-	int	max_value_pos;
-	int	min_value_pos;
-	int	insertion_pos;
-
-	i = piles->size_a - 1;
-	insertion_pos = -1;
-	max_value_pos = piles->size_a;
-	min_value_pos = piles->size_a;
-	while (++i < piles->size_a + piles->size_b)
-	{
-		if (piles->content[i] > piles->content[max_value_pos])
-			max_value_pos = i;
-		if (piles->content[i] < piles->content[min_value_pos])
-			min_value_pos = i;
-	}
-	i = piles->size_a - 1;
-	if (value > piles->content[max_value_pos] || value < piles->content[min_value_pos])
-		insertion_pos = max_value_pos;
-	else if (value > piles->content[piles->size_a]
-		&& value < piles->content[piles->size_a + piles->size_b - 1])
-		insertion_pos = piles->size_a;
-	else
-	{
-		while (i + 1 < piles->size_a + piles->size_b)
-		{
-			if (value < piles->content[i] && value > piles->content[i + 1])
-				insertion_pos = i + 1;
-			i++;
-		}
-	}
-	return (insertion_pos);
-}
-
-void	insert_in_b(int value, t_piles *piles, t_operations **ope)
-{
-	int	insertion_pos;
-	int	middle;
-
-	insertion_pos = find_insertion_pos_in_b(value, piles) - piles->size_a;
-	middle = (piles->size_b) / 2;
-	if (insertion_pos == -1 || insertion_pos == piles->size_b)
-		push_b(piles, ope);
-	else if (insertion_pos < middle)
-	{
-		while (insertion_pos-- > 0)
-			rotate_b(piles, ope);
-		push_b(piles, ope);
-	}
-	else
-	{
-		while (insertion_pos++ < piles->size_b)
-			reverse_rotate_b(piles, ope);
-		push_b(piles, ope);
-	}
-	/*int i = 0;
-	while (i < piles->size_a + piles->size_b)
-	{
-		printf("%i ", piles->content[i++]);
-		if (i - 1 < piles->size_a)
-			printf("in a, ");
-		else
-			printf("in b, ");
-		if (i == piles->size_a + piles->size_b)
-			printf("\n");
-	}*/
-}
-
 void	put_non_bitonic_as_first(t_piles *piles, t_operations **ope)
 {
 	int	i;
@@ -146,50 +100,41 @@ void	put_non_bitonic_as_first(t_piles *piles, t_operations **ope)
 void	init_bitonic_like_sort(t_piles *piles, t_operations **ope)
 {
 	int	order;
+	int	bitonic_a;
 	int	change;
 
 	order = is_in_order(piles);
 	while (order != TRUE_A && order != TRUE_AB && piles->size_a > 2)
 	{
 		change = 0;
+		bitonic_a = a_is_bitonic(piles);
+		printf("here\n");
 		while (piles->size_a > 1 && piles->content[0] > piles->content[1])
 		{
 			change = 1;
-			if (piles->size_a > 2 && piles->content[0] < piles->content[2])
-				swap_a(piles, ope);
-			else if (piles->content[0] > piles->content[piles->size_a - 1])
-				rotate_a(piles, ope);
-			else if (piles->content[0] < piles->content[piles->size_a - 1]
-				&& piles->content[0] > piles->content[piles->size_a - 2])
-			{
-				reverse_rotate_a(piles, ope);
-				swap_a(piles, ope);
-			}
-			else if (piles->content[0] < piles->content[piles->size_a - 1]
-				&& piles->content[0] < piles->content[piles->size_a - 2]
-				&& piles->content[0] > piles->content[piles->size_a - 3])
-			{
-				reverse_rotate_a(piles, ope);
-				swap_a(piles, ope);
-				reverse_rotate_a(piles, ope);
-				swap_a(piles, ope);
-			}
-			else if (piles->size_b == 0)
-				push_b(piles, ope);
-			else
-				insert_in_b(piles->content[0], piles, ope);
+			choose_costless_option(piles->content[0], piles, ope);
+			bitonic_a = a_is_bitonic(piles);
 		}
-		order = is_in_order(piles);
-		if (order != TRUE_AB && order != TRUE_A)
+		if (bitonic_a == 0)
 		{
+			printf("not bitonic\n");
 			put_non_bitonic_as_first(piles, ope);
 			if (change == 0 && piles->size_b == 0)
 				push_b(piles, ope);
 			else if (change == 0)
-				insert_in_b(piles->content[0], piles, ope);
+				choose_costless_option(piles->content[0], piles, ope);
+			order = is_in_order(piles);
 		}
-		/*int i = 0;
-		while (i < piles->size_a + piles->size_b && piles->size_b != 4)
+		else
+		{
+			printf("bitonic\n");
+			order = is_in_order(piles);
+			if (order != TRUE_A && order != TRUE_AB)
+				get_monotonic_a(piles, ope);
+			order = is_in_order(piles);
+		}
+		int i = 0;
+		while (i < piles->size_a + piles->size_b)
 		{
 			printf("%i ", piles->content[i++]);
 			if (i - 1 < piles->size_a)
@@ -198,32 +143,8 @@ void	init_bitonic_like_sort(t_piles *piles, t_operations **ope)
 				printf("in b, ");
 			if (i == piles->size_a + piles->size_b)
 				printf("\n");
-		}*/
-	}
-}
-
-void	insert_in_a(int value, t_piles *piles, t_operations **ope)
-{
-	reverse_rotate_a(piles, ope);
-	while (piles->size_b > 0)
-	{
-/*		int i = 0;
-		while (i < piles->size_a + piles->size_b)
-		{
-			printf("%i ", piles->content[i++]);
-			if (i - 1 < piles->size_a)
-				printf("in a, ");
-			else
-				printf("in b, ");
 		}
-		printf("\n");*/
-		if (piles->content[piles->size_a] == piles->content[0] - 1)
-			push_a(piles, ope);
-		else
-			reverse_rotate_a(piles, ope);
 	}
-	while (piles->content[0] > 0)
-		reverse_rotate_a(piles, ope);
 }
 
 /* 
@@ -251,7 +172,7 @@ void	bitonic_like_sort(t_piles *piles, t_operations **ope)
 	printf("\n");*/
 	get_monotonic_b(piles, ope);
 	while (piles->size_b > 0)
-		insert_in_a(piles->content[piles->size_a], piles, ope);
+		final_insert_in_a(piles->content[piles->size_a], piles, ope);
 	if (is_in_order(piles) != TRUE_A)
 		printf("ERROR !!!\n");
 }

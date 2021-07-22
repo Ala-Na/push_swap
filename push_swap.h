@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 12:25:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/22 17:36:29 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,22 +90,42 @@ typedef struct s_operations
 	struct s_operations	*next;
 }	t_operations;
 
+/*
+** Functions for a bitonic like algorithm sorting piles of size superior to 5.
+*/
+void	final_insert_in_a(int value, t_piles *piles, t_operations **ope);
 void	get_monotonic_b(t_piles *piles, t_operations **ope);
-void	insert_in_b(int value, t_piles *piles, t_operations **ope);
 void	put_non_bitonic_as_first(t_piles *piles, t_operations **ope);
 void	init_bitonic_like_sort(t_piles *piles, t_operations **ope);
-void	insert_in_a(int value, t_piles *piles, t_operations **ope);
 void	bitonic_like_sort(t_piles *piles, t_operations **ope);
 
 /*
-** Function to sort arrays of 2 or 3 elements.
+** Functions to calculate cost or expected position of elements.
+*/
+int		cost_insertion_a_to_a(int value, t_piles *piles);
+int		cost_insertion_a_to_b(int value, t_piles *piles);
+int		find_insertion_pos_in_b(int value, t_piles *piles);
+void	insert_in_b(int value, t_piles *piles, t_operations **ope);
+void	insert_in_a(int cost, t_piles *piles, t_operations **ope, int top);
+void	choose_costless_option(int value, t_piles *piles, t_operations **ope);
+
+/*
+** Functions to sort arrays of 2 or 3 elements.
 */
 void	sort_short_pile_b(t_piles *piles, int start, t_operations **ope);
 void	sort_short_pile_a(t_piles *piles, t_operations **ope);
 void	sort_shorts_piles(t_piles *piles, t_operations **ope);
 
+/*
+** Functions to sort arrays up to 5 elements.
+*/
 void	sort_top_piles(t_piles *piles, int middle, t_operations **ope);
 void	sort_pile_until_five_elem(t_piles *piles, t_operations **ope);
+
+/*
+** Function to redirect piles to correct algorithm depending on
+** the initial size of pile a.
+*/
 int		sort_piles(t_piles *piles, t_operations **ope);
 
 /*
@@ -120,17 +140,29 @@ void	transform_values_to_tags(t_tags *tags);
 t_piles	*tag_values(int *list, int size);
 
 /*
-** Function to check order of both piles
+** Function to check order of both piles. Result is given as a
+** t_order enum.
 */
 t_order	is_in_order(t_piles *lst);
 
+void	get_monotonic_a(t_piles *piles, t_operations **ope);
+int		a_is_bitonic(t_piles *lst);
+
+/*
+** Functions to manipulate the structure t_operations in order to
+** diminish the global number of operations.
+** Swaps, rotations and reverse rotations are grouped when it's
+** possible.
+*/
 void	replace_action(t_operations **curr, t_operations **seek, t_action action);
 void	simplify_operations(t_operations **ope);
 t_operations	*new_op(t_action action);
 void	add_op(t_operations **ope, t_operations *new_op);
 
 /*
-** Operations functions
+** Operations functions.
+** When one is performed, the information is stocked inside a
+** t_operations structure.
 */
 void	swap_a(t_piles *lst, t_operations **ope);
 void	swap_b(t_piles *lst, t_operations **ope);
