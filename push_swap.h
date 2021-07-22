@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 23:46:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/22 12:25:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,25 @@ typedef enum e_order
 	TRUE_B,
 	TRUE_AB
 }	t_order;
+
+/*
+** Enum to simplify identification of actions/operations
+** performed inside the structure t_operations.
+*/
+typedef enum e_action
+{
+	SWAP_A,
+	SWAP_B,
+	ROTATE_A,
+	ROTATE_B,
+	REVERSE_ROTATE_A,
+	REVERSE_ROTATE_B,
+	PUSH_A,
+	PUSH_B,
+	SS,
+	RR,
+	RRR
+}	t_action;
 
 /*
 ** Structure contening piles with tag values.
@@ -67,7 +86,7 @@ typedef struct s_tags
 */
 typedef struct s_operations
 {
-	char			*operation;
+	t_action	act;
 	struct s_operations	*next;
 }	t_operations;
 
@@ -105,9 +124,10 @@ t_piles	*tag_values(int *list, int size);
 */
 t_order	is_in_order(t_piles *lst);
 
-t_operations	*new_op(char *name_op);
+void	replace_action(t_operations **curr, t_operations **seek, t_action action);
+void	simplify_operations(t_operations **ope);
+t_operations	*new_op(t_action action);
 void	add_op(t_operations **ope, t_operations *new_op);
-
 
 /*
 ** Operations functions

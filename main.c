@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 23:39:56 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/22 11:16:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ int	main(int argc, char **argv)
 	}
 	free(piles->content);
 	free(piles);
-	free(ope);
 	return (0);
 }
