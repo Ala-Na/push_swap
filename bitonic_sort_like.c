@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 10:57:32 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 18:02:27 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 20:51:40 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,30 +73,6 @@ void	get_monotonic_b(t_piles *piles, t_operations **ope)
 	}
 }
 
-void	put_non_bitonic_as_first(t_piles *piles, t_operations **ope)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = piles->size_a - 1;
-	while (i + 1 < piles->size_a && piles->content[i] < piles->content[i + 1])
-		i++;
-	i += 1;
-	while (j - 1 >= 0 && piles->content[j - 1] < piles->content[j])
-		j--;
-	if (piles->size_a - j < i)
-	{
-		while (j++ < piles->size_a)
-			reverse_rotate_a(piles, ope);
-	}
-	else
-	{
-		while (i-- > 0)
-			rotate_a(piles, ope);
-	}
-}
-
 void	init_bitonic_like_sort(t_piles *piles, t_operations **ope)
 {
 	int	order;
@@ -106,34 +82,29 @@ void	init_bitonic_like_sort(t_piles *piles, t_operations **ope)
 	order = is_in_order(piles);
 	while (order != TRUE_A && order != TRUE_AB && piles->size_a > 2)
 	{
-		change = 0;
 		bitonic_a = a_is_bitonic(piles);
-		printf("here\n");
-		while (piles->size_a > 1 && piles->content[0] > piles->content[1])
+		if (bitonic_a == 1)
 		{
-			change = 1;
-			choose_costless_option(piles->content[0], piles, ope);
-			bitonic_a = a_is_bitonic(piles);
-		}
-		if (bitonic_a == 0)
-		{
-			printf("not bitonic\n");
-			put_non_bitonic_as_first(piles, ope);
-			if (change == 0 && piles->size_b == 0)
-				push_b(piles, ope);
-			else if (change == 0)
-				choose_costless_option(piles->content[0], piles, ope);
-			order = is_in_order(piles);
+			get_monotonic_a(piles, ope);
 		}
 		else
 		{
-			printf("bitonic\n");
-			order = is_in_order(piles);
-			if (order != TRUE_A && order != TRUE_AB)
-				get_monotonic_a(piles, ope);
-			order = is_in_order(piles);
+			/*int i = 0;
+			while (i < piles->size_a + piles->size_b)
+			{
+				printf("%i ", piles->content[i++]);
+				if (i - 1 < piles->size_a)
+				printf("in a, ");
+				else
+					printf("in b, ");
+				if (i == piles->size_a + piles->size_b)
+					printf("\n");
+			}*/
+			if (choose_costless_option(piles->content[0], piles, ope) == 0)
+				rotate_a(piles, ope);
 		}
-		int i = 0;
+		order = is_in_order(piles);
+		/*int i = 0;
 		while (i < piles->size_a + piles->size_b)
 		{
 			printf("%i ", piles->content[i++]);
@@ -143,7 +114,7 @@ void	init_bitonic_like_sort(t_piles *piles, t_operations **ope)
 				printf("in b, ");
 			if (i == piles->size_a + piles->size_b)
 				printf("\n");
-		}
+		}*/
 	}
 }
 

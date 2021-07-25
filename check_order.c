@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:42:47 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 18:07:35 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 17:32:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,29 @@ int	a_is_bitonic(t_piles *lst)
 {
 	int	i;
 	int	max_value_pos;
+	int min_value_pos;
 
 	i = 0;
 	max_value_pos = 0;
+	min_value_pos = 0;
 	if (lst->size_a <= 2)
 		return (1);
 	while (i < lst->size_a)
 	{
 		if (lst->content[i] > lst->content[max_value_pos])
 			max_value_pos = i;
+		if (lst->content[i] < lst->content[min_value_pos])
+			min_value_pos = i;
 		i++;
 	}
 	i = 0;
 	while (i + 1 < lst->size_a)
 	{
-		if (i != max_value_pos && lst->content[i] < lst->content[i + 1])
-			return (0);                                                                                          i++;                   
+		if (i != max_value_pos && lst->content[i] > lst->content[i + 1])
+			return (0);
+		else if (i == max_value_pos && lst->content[i + 1] != lst->content[min_value_pos])
+			return (0);
+		i++;
 	}
 	return (1);
 }

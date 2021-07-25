@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:39:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 16:46:32 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 17:37:18 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	reverse_rotate_a(t_piles *lst, t_operations **ope)
 		}
 		lst->content[0] = tmp_1;
 		add_op(ope, new_op(REVERSE_ROTATE_A));
-		printf("rra\n");
+		//printf("rra\n");
 	}
 }
 
@@ -54,6 +54,6 @@ void	reverse_rotate_b(t_piles *lst, t_operations **ope)
 		}
 		lst->content[lst->size_a] = tmp_1;
 		add_op(ope, new_op(REVERSE_ROTATE_B));
-		printf("rrb\n");
+		//printf("rrb\n");
 	}
 }

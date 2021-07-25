@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 17:46:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 18:05:09 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ char	*get_action_name(t_action act)
 		return ("ss\n");
 	else if (act == RR)
 		return ("rr\n");
-	return ("rrr\n");
+	else if (act == RRR)
+		return ("rrr\n");
+	return (NULL);
 }
 
 void	print_solution(t_operations **ope)
@@ -48,7 +50,8 @@ void	print_solution(t_operations **ope)
 	while (to_print)
 	{
 		name = get_action_name(to_print->act);
-		ft_putstr_fd(name, 1);
+		if (name != NULL)
+			ft_putstr_fd(name, 1);
 		tmp = to_print;
 		to_print = to_print->next;
 		free(tmp);

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 15:45:36 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 16:45:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 17:37:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	swap_a(t_piles *lst, t_operations **ope)
 		lst->content[0] = lst->content[1];
 		lst->content[1] = tmp;
 		add_op(ope, new_op(SWAP_A));
-		printf("sa\n");
+		//printf("sa\n");
 	}
 }
 
@@ -36,7 +36,7 @@ void	swap_b(t_piles *lst, t_operations **ope)
 		lst->content[lst->size_a] = lst->content[(lst->size_a) + 1];
 		lst->content[(lst->size_a) + 1] = tmp;
 		add_op(ope, new_op(SWAP_B));
-		printf("sb\n");
+		//printf("sb\n");
 	}
 }
 
@@ -61,7 +61,7 @@ void	push_a(t_piles *lst, t_operations **ope)
 	lst->size_a += 1;
 	lst->size_b -= 1;
 	add_op(ope, new_op(PUSH_A));
-	printf("pa\n");
+	//printf("pa\n");
 }
 
 void	push_b(t_piles *lst, t_operations **ope)
@@ -85,5 +85,5 @@ void	push_b(t_piles *lst, t_operations **ope)
 	lst->size_a -= 1;
 	lst->size_b += 1;
 	add_op(ope, new_op(PUSH_B));
-	printf("pb\n");
+	//printf("pb\n");
 }

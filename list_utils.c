@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 23:12:59 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 12:49:47 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 18:03:38 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,35 @@ void	replace_action(t_operations **curr, t_operations **seek, t_action action)
 	seek = &(to_replace->next);
 }
 
+void	delete_unecessary_operations(t_operations **ope)
+{
+	t_operations	*curr;
+	t_operations	*seek;
+
+	curr = *ope;
+	seek = curr->next;
+	while (curr->next)
+	{
+		if (((curr->act == ROTATE_A || curr->act == REVERSE_ROTATE_A)
+			&& (seek->act == PUSH_A || seek->act == SWAP_A || seek->act == PUSH_B))
+			|| ((curr->act == ROTATE_B || curr->act == REVERSE_ROTATE_B)
+			&& (seek->act == PUSH_B || seek->act == PUSH_A || seek->act == SWAP_B))
+			|| seek->next == NULL)
+		{
+			curr = curr->next;
+			seek = curr->next;
+		}
+		else if (curr->act == ROTATE_A && seek->act == REVERSE_ROTATE_A)
+			replace_action(&curr, &seek, NOTHING);
+		else if (curr->act == ROTATE_B && seek->act == REVERSE_ROTATE_B)
+			replace_action(&curr, &seek, NOTHING);
+		else if (seek->act == ROTATE_A && curr->act == REVERSE_ROTATE_A)
+			replace_action(&curr, &seek, NOTHING);
+		else if (seek->act == ROTATE_B && curr->act == REVERSE_ROTATE_B)
+			replace_action(&curr, &seek, NOTHING);
+	}
+}
+
 void	simplify_operations(t_operations **ope)
 {
 	t_operations	*curr;
@@ -44,7 +73,11 @@ void	simplify_operations(t_operations **ope)
 	while (curr->next)
 	{
 		if (curr->act == PUSH_A || curr->act == PUSH_B
-			|| seek->act == PUSH_A || seek->act == PUSH_B || seek->next == NULL)
+			|| seek->act == PUSH_A || seek->act == PUSH_B || seek->next == NULL
+			|| (curr->act == SWAP_A && (seek->act == ROTATE_A || seek->act == REVERSE_ROTATE_A))
+			|| (curr->act == SWAP_B && (seek->act == ROTATE_B || seek->act == REVERSE_ROTATE_B))
+			|| (seek->act == SWAP_A && (curr->act == ROTATE_A || curr->act == REVERSE_ROTATE_A))
+			|| (seek->act == SWAP_B && (curr->act == ROTATE_B || curr->act == REVERSE_ROTATE_B)))
 		{
 			curr = curr->next;
 			seek = curr->next;

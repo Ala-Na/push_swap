@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 17:36:29 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 20:51:10 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ typedef enum e_action
 	PUSH_B,
 	SS,
 	RR,
-	RRR
+	RRR,
+	NOTHING
 }	t_action;
 
 /*
@@ -107,7 +108,7 @@ int		cost_insertion_a_to_b(int value, t_piles *piles);
 int		find_insertion_pos_in_b(int value, t_piles *piles);
 void	insert_in_b(int value, t_piles *piles, t_operations **ope);
 void	insert_in_a(int cost, t_piles *piles, t_operations **ope, int top);
-void	choose_costless_option(int value, t_piles *piles, t_operations **ope);
+int		choose_costless_option(int value, t_piles *piles, t_operations **ope);
 
 /*
 ** Functions to sort arrays of 2 or 3 elements.

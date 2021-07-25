@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 15:52:19 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/22 17:15:34 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 20:50:34 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,47 @@
 ** from top and bottom. Return the smallest cost.
 ** If positive : from top. If negative : from bottom.
 */
-int		cost_insertion_a_to_a(int value, t_piles *piles)
+int	find_closest_value_in_a(int value, t_piles *piles)
 {
 	int	i;
-	int	top_insertion_pos;
-	int	bottom_insertion_pos;
+	int	next_value_pos;
 
-	i = 1;
-	while (i < piles->size_a && value > piles->content[i])
-		i++;
-	top_insertion_pos = i;
-	i = piles->size_a - 1;
-	while (i > 0 && value < piles->content[i])
-		i--;
-	bottom_insertion_pos = i;
-	if (top_insertion_pos == 1)
-		return (top_insertion_pos);
-	if (top_insertion_pos <= piles->size_a - bottom_insertion_pos)
+	i = 0;
+	next_value_pos = 0;
+	while (i < piles->size_a)
 	{
-		if (top_insertion_pos == 2)
-			return (3);
-		return (2 + 2 * top_insertion_pos);
+		if (piles->content[i] > piles->content[next_value_pos])
+			next_value_pos = i; // is max in a
+		i++;
 	}
-	if (piles->size_a - bottom_insertion_pos == 1)
-		return (-2);
-	return (-2 * bottom_insertion_pos);
+	i = 0;
+	while (i < piles->size_a)
+	{
+		if (piles->content[i] < piles->content[next_value_pos] && piles->content[i] > value)
+			next_value_pos = i; // is closest superior value in a
+		i++;
+	}
+	return (next_value_pos - 1);
+	//printf("closest inferior value of %i is %i in %i place\n", value, piles->content[*prev_value_pos], *prev_value_pos);
+	//printf("closest superior value of %i is %i in %i place\n", value, piles->content[*next_value_pos], *next_value_pos);
+}
+
+int		cost_insertion_a_to_a(int value, t_piles *piles)
+{
+	int	closest; // new position closest to correct pos (ever in place of closest inferior
+	// value or just before closest superior value)
+
+	closest = find_closest_value_in_a(value, piles);
+	//printf("value %i should be inserted in %i place instead of %i\n", value, closest, piles->content[closest]);
+	if (closest <= 0)
+		return (0); //nothing to be done
+	else if (closest == 1)
+		return (1); //sa
+	else if (closest == piles->size_a - 2)
+		return (2); // rra + sa
+	else if (closest < piles->size_a / 2)
+		return (2 + closest);
+	return (-1 * (2 + piles->size_a - 1 - closest)); 
 }
 
 int		find_insertion_pos_in_b(int value, t_piles *piles)
@@ -151,32 +167,27 @@ void	insert_in_a(int cost, t_piles *piles, t_operations **ope, int top)
 	int	i;
 
 	value = piles->content[0];
-	if (cost <= 2)
-	{
-		if (top == 0)
-			reverse_rotate_a(piles, ope);
+	if (cost == 0)
+		return ;
+	else if (cost == 1)
 		swap_a(piles, ope);
-	}
-	if (cost == 2)
+	else if (cost == 2)
 	{
-		if (top == 0)
-			reverse_rotate_a(piles, ope);
-		else
-			rotate_a(piles, ope);
+		reverse_rotate_a(piles, ope);
 		swap_a(piles,ope);
 	}
-	else if (cost > 2)
+	else
 	{
 		push_b(piles, ope);
-		while (top == 0 && cost-- - 2 > 0)
-			reverse_rotate_a(piles, ope);
 		while (top == 1 && cost-- - 2 > 0)
 			rotate_a(piles, ope);
+		while (top == 0 && --cost / 2 > 0)
+			reverse_rotate_a(piles, ope);
 		push_a(piles, ope);
 	}
 }
 
-void	choose_costless_option(int value, t_piles *piles, t_operations **ope)
+int	choose_costless_option(int value, t_piles *piles, t_operations **ope)
 {
 	int	a_to_b;
 	int	a_to_a;
@@ -190,7 +201,64 @@ void	choose_costless_option(int value, t_piles *piles, t_operations **ope)
 	else
 		a_to_a *= -1;
 	if (a_to_b < a_to_a)
+	{
 		insert_in_b(value, piles, ope);
+		return (a_to_b);
+	}
 	else
+	{
 		insert_in_a(a_to_a, piles, ope, top);
+		return (a_to_a);
+	}
+	
 }
+
+/*int main()
+{
+	t_piles	*piles;
+	int	size = 8;
+	int	*array = malloc(sizeof(*array) * size);
+	int	top = 0;
+	t_operations	*ope = malloc(sizeof(*ope));
+	piles = malloc(sizeof(*piles));
+	array[0] = 4;
+	array[1] = 0;
+	array[2] = 2;
+	array[3] = 6;
+	array[4] = 5;
+	array[5] = 3;
+	array[6] = 1;
+	array[7] = 7;
+	piles->content = array;
+	piles->size_a = size;
+	piles->size_b = 0;
+	int i = 0;
+	while (i < piles->size_a + piles->size_b)
+	{
+		printf("%i ", piles->content[i++]);
+		if (i - 1 < piles->size_a)
+			printf("in a, ");
+		else
+			printf("in b, ");
+		if (i == piles->size_a + piles->size_b)
+			printf("\n");
+	}
+	int a_to_a = cost_insertion_a_to_a(piles->content[0], piles);
+	printf("the cost is %i\n", a_to_a);
+	if (a_to_a > 0)
+		top = 1;
+	else
+		a_to_a *= -1;
+	insert_in_a(a_to_a, piles, &ope, top);
+	i = 0;
+	while (i < piles->size_a + piles->size_b)
+	{
+		printf("%i ", piles->content[i++]);
+		if (i - 1 < piles->size_a)
+			printf("in a, ");
+		else
+			printf("in b, ");
+		if (i == piles->size_a + piles->size_b)
+			printf("\n");
+	}
+}*/
