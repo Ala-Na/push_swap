@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/25 18:05:09 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/25 23:17:44 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 		return (0);
 	if (piles->size_a <= 5)
 		sort_pile_until_five_elem(piles, ope);
-	else 
-		bitonic_like_sort(piles, ope);
+	//else 
+	//	bitonic_like_sort(piles, ope);
 	print_solution(ope);
 	return (0);
 }
