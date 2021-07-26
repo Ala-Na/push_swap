@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/25 20:51:10 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/26 23:25:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,5 +190,9 @@ int		check_and_extract_list(int argc, char **argv, int **list_a,
 int		ft_atoi(const char *nptr);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_isdigit(int c);
+
+int	partial_order(t_piles *piles, int is_b, int len);
+int	second_quick_sort(t_piles *piles, t_operations **operations, int size);
+int	first_quick_sort(t_piles *piles, t_operations **operations, int size);
 
 #endif
