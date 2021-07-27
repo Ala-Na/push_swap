@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/26 23:25:02 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/27 16:09:20 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	sort_shorts_piles(t_piles *piles, t_operations **ope);
 /*
 ** Functions to sort arrays up to 5 elements.
 */
-void	sort_top_piles(t_piles *piles, int middle, t_operations **ope);
+void	sort_top_piles(t_piles *piles, int middle, t_operations **ope, int define_case);
 void	sort_pile_until_five_elem(t_piles *piles, t_operations **ope);
 
 /*
@@ -194,5 +194,8 @@ int		ft_isdigit(int c);
 int	partial_order(t_piles *piles, int is_b, int len);
 int	second_quick_sort(t_piles *piles, t_operations **operations, int size);
 int	first_quick_sort(t_piles *piles, t_operations **operations, int size);
+void	sort_top_a(t_piles *piles, t_operations **ope, int size);
+void	sort_top_b(t_piles *piles, t_operations **ope, int size);
+
 
 #endif

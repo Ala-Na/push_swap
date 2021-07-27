@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/26 23:12:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/27 16:21:11 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	sort_pile_until_five_elem(t_piles *piles, t_operations **ope)
 			push_b(piles, ope);
 		else
 		{
-			sort_top_piles(piles, middle, ope);
+			sort_top_piles(piles, middle, ope, -1);
 			order = is_in_order(piles);
 			if (order != TRUE_AB && order != TRUE_A)
 				reverse_rotate_a(piles, ope);
@@ -97,8 +97,13 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 	if (piles->size_a <= 5)
 		sort_pile_until_five_elem(piles, ope);
 	else
+	{
 		first_quick_sort(piles, ope, piles->size_a);
-	printf("final :\n");
+		second_quick_sort(piles, ope, piles->size_b);
+		while (piles->size_b)
+			push_a(piles, ope);
+	}
+	print_solution(ope);
 	int	i = 0;
 	while (i < piles->size_a + piles->size_b)
 	{
@@ -110,6 +115,7 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 		if (i == piles->size_a + piles->size_b)
 			printf("\n");
 	}
-	print_solution(ope);
+	if (is_in_order(piles) != TRUE_A || piles->size_b != 0)
+		printf("ERROR\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 16:42:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/27 12:14:54 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/27 16:10:23 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,14 @@ int	second_quick_sort(t_piles *piles, t_operations **ope, int size)
 	}
 	if (size <= 3)
 	{
-		sort_shorts_piles(piles, ope);
+		sort_top_b(piles, ope, size);
+		printf("end of second with size %i\n", nb_elem);
 		return (1);
 	}
-	pivot = get_pivot(piles, piles->size_a, piles->size_a + piles->size_b);
+	pivot = get_pivot(piles, piles->size_a, piles->size_a + size);
 	printf("pivot is %i and size is %i\n", pivot, size);
 	while (size != nb_elem / 2)
 	{
-		i = 0;
-		while (i < piles->size_a + piles->size_b)
-		{
-			if (i < piles->size_a)
-				printf("%i in a, ", piles->content[i]);
-			else
-				printf("%i in b, ", piles->content[i]);
-			i++;
-			if (i == piles->size_a + piles->size_b)
-				printf("\n");
-		}
 		if (piles->content[piles->size_a] >= pivot && size--)
 			push_a(piles, ope);
 		else if (++deplaced_elems)
@@ -83,9 +73,9 @@ int	second_quick_sort(t_piles *piles, t_operations **ope, int size)
 	}
 	while (nb_elem / 2 != piles->size_b && deplaced_elems--)
 		reverse_rotate_b(piles, ope);
-	res = first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2)
-		 && second_quick_sort(piles, ope, nb_elem / 2);
-	printf("end of second with size %i\n", size);
+	res = first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2);
+	res += second_quick_sort(piles, ope, nb_elem / 2);
+	printf("end of second with size %i\n", nb_elem);
 	return (res);
 }
 
@@ -114,10 +104,11 @@ int	first_quick_sort(t_piles *piles, t_operations **ope, int size)
 	nb_elem = size;
 	if (size <= 3)
 	{
-		sort_shorts_piles(piles, ope);
+		printf("end of first with size %i\n", size);
+		sort_top_a(piles, ope, size);
 		return (1);
 	}
-	pivot = get_pivot(piles, 0, piles->size_a);
+	pivot = get_pivot(piles, 0, size);
 	printf("pivot is %i\n", pivot);
 	while (size != nb_elem / 2 + nb_elem % 2)
 	{
@@ -128,8 +119,8 @@ int	first_quick_sort(t_piles *piles, t_operations **ope, int size)
 	}
 	while (piles->size_a != nb_elem / 2 + nb_elem % 2 && deplaced_elems--)
 		reverse_rotate_a(piles, ope);
-	res = first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2)
-		&& second_quick_sort(piles, ope, nb_elem / 2);
-	printf("end of first with size %i\n", size);
+	res = first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2);
+	res += second_quick_sort(piles, ope, nb_elem / 2);
+	printf("end of first with size %i\n", nb_elem);
 	return (res);
 }

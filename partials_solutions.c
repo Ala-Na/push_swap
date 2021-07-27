@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 11:15:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/21 23:43:17 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/27 16:06:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,18 @@ void	sort_shorts_piles(t_piles *piles, t_operations **ope)
 		sort_short_pile_b(piles, piles->size_a, ope);
 }
 
-void	sort_top_piles(t_piles *piles, int middle, t_operations **ope)
+void	sort_top_piles(t_piles *piles, int middle, t_operations **ope, int define_case)
 {
-	if (piles->size_a > 3)
+	if ((define_case == 0 && piles->size_a <= 3)
+		|| (define_case == 1 && piles->size_b <= 3))
+		sort_shorts_piles(piles, ope);
+	if ((define_case == -1 && piles->size_a > 3) || define_case == 0)
 	{
 		if (piles->content[0] > piles->content[1])
 			swap_a(piles, ope);
 		if (piles->content[0] < piles->content[1] && piles->content[1] > piles->content[2])
 		{
-			if (piles->content[0] < middle)
+			if (middle != -1 && piles->content[0] < middle)
 			{
 				push_b(piles, ope);
 				swap_a(piles, ope);
@@ -104,7 +107,7 @@ void	sort_top_piles(t_piles *piles, int middle, t_operations **ope)
 		if (piles->content[0] > piles->content[1])
 			swap_a(piles, ope);
 	}
-	if (piles->size_b > 3)
+	if ((define_case == 1 || define_case == -1) && piles->size_b > 3)
 	{
 		if (piles->content[piles->size_a] < piles->content[piles->size_a + 1])
 			swap_b(piles, ope);
@@ -117,5 +120,35 @@ void	sort_top_piles(t_piles *piles, int middle, t_operations **ope)
 		}
 		if (piles->content[piles->size_a] < piles->content[piles->size_a + 1])
 			swap_b(piles, ope);
+	}
+}
+
+void	sort_top_a(t_piles *piles, t_operations **ope, int size)
+{
+	if (piles->size_a <= 3)
+		sort_short_pile_a(piles, ope);
+	else if (size <= 2)
+	{
+		if (piles->content[0] > piles->content[1])
+			swap_a(piles, ope);
+	}
+	else
+	{
+		sort_top_piles(piles, -1, ope, 0);
+	}
+}
+
+void	sort_top_b(t_piles *piles, t_operations **ope, int size)
+{
+	if (piles->size_b <= 3)
+		sort_short_pile_b(piles, piles->size_a, ope);
+	else if (size <= 2)
+	{
+		if (piles->content[piles->size_a] > piles->content[piles->size_a + 1])
+			swap_b(piles, ope);
+	}
+	else
+	{
+		sort_top_piles(piles, -1, ope, 1);
 	}
 }

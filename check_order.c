@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:42:47 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/27 11:33:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/27 14:20:47 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int		partial_order(t_piles *piles, int is_b, int len)
 			return (0);
 		i++;
 	}
-	printf("is sorted\n");
 	return (1);
 }
 
