@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 16:42:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/27 16:10:23 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/27 22:58:43 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	second_quick_sort(t_piles *piles, t_operations **ope, int size)
 	int	deplaced_elems;
 	int	res;
 
-	printf("enter second with size %i\n", size);
+/*	printf("enter second with size %i\n", size);
 	int	i = 0;
 	while (i < piles->size_a + piles->size_b)
 	{
@@ -48,35 +48,35 @@ int	second_quick_sort(t_piles *piles, t_operations **ope, int size)
 		i++;
 		if (i == piles->size_a + piles->size_b)
 			printf("\n");
-	}
+	}*/
 	nb_elem = size;
 	deplaced_elems = 0;
-	if (partial_order(piles, 1, size) == 1)
+	while (piles->content[piles->size_a] == piles->content[0] - 1)
 	{
-		while (size--)
-			push_a(piles, ope);
+//		printf("top b is %i top a is %i\n", piles->content[piles->size_a], piles->content[0]);
+		push_a(piles, ope);
+		size--;
 	}
 	if (size <= 3)
 	{
-		sort_top_b(piles, ope, size);
-		printf("end of second with size %i\n", nb_elem);
+		if (size > 0)
+			sort_top_b(piles, ope, size);
+	//	printf("end of second with size %i\n", nb_elem);
 		return (1);
 	}
 	pivot = get_pivot(piles, piles->size_a, piles->size_a + size);
-	printf("pivot is %i and size is %i\n", pivot, size);
+//	printf("pivot is %i and size is %i\n", pivot, size);
 	while (size != nb_elem / 2)
 	{
-		if (piles->content[piles->size_a] >= pivot && size--)
+		if (piles->content[piles->size_a] == piles->content[0] - 1 && size--)
 			push_a(piles, ope);
 		else if (++deplaced_elems)
 			rotate_b(piles, ope);
 	}
 	while (nb_elem / 2 != piles->size_b && deplaced_elems--)
 		reverse_rotate_b(piles, ope);
-	res = first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2);
-	res += second_quick_sort(piles, ope, nb_elem / 2);
-	printf("end of second with size %i\n", nb_elem);
-	return (res);
+	return (first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2)
+		&& second_quick_sort(piles, ope, nb_elem / 2));
 }
 
 int	first_quick_sort(t_piles *piles, t_operations **ope, int size)
@@ -86,7 +86,7 @@ int	first_quick_sort(t_piles *piles, t_operations **ope, int size)
 	int	deplaced_elems;
 	int	res;
 
-	printf("enter first with size %i\n", size);
+/*	printf("enter first with size %i\n", size);
 	int	i = 0;
 	while (i < piles->size_a + piles->size_b)
 	{
@@ -97,19 +97,19 @@ int	first_quick_sort(t_piles *piles, t_operations **ope, int size)
 		i++;
 		if (i == piles->size_a + piles->size_b)
 			printf("\n");
-	}
+	}*/
 	deplaced_elems = 0;
 	if (partial_order(piles, 0, size) == 1)
 		return (1);
 	nb_elem = size;
 	if (size <= 3)
 	{
-		printf("end of first with size %i\n", size);
+//		printf("end of first with size %i\n", size);
 		sort_top_a(piles, ope, size);
 		return (1);
 	}
 	pivot = get_pivot(piles, 0, size);
-	printf("pivot is %i\n", pivot);
+//	printf("pivot is %i\n", pivot);
 	while (size != nb_elem / 2 + nb_elem % 2)
 	{
 		if (piles->content[0] < pivot && (size--))
@@ -119,8 +119,8 @@ int	first_quick_sort(t_piles *piles, t_operations **ope, int size)
 	}
 	while (piles->size_a != nb_elem / 2 + nb_elem % 2 && deplaced_elems--)
 		reverse_rotate_a(piles, ope);
-	res = first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2);
-	res += second_quick_sort(piles, ope, nb_elem / 2);
-	printf("end of first with size %i\n", nb_elem);
+	return (first_quick_sort(piles, ope, nb_elem / 2 + nb_elem % 2)
+		&& second_quick_sort(piles, ope, nb_elem / 2));
+//	printf("end of first with size %i\n", nb_elem);
 	return (res);
 }
