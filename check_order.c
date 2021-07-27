@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:42:47 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/26 23:26:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/27 11:33:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ int		partial_order(t_piles *piles, int is_b, int len)
 	int start;
 	int	i;
 
+	i = 0;
 	if (is_b == 0)
 		start = 0;
 	else
 		start = piles->size_a;
-	while (i < len)
+	while (i + 1 < len)
 	{
 		if (is_b == 0 && piles->content[start + i] > piles->content[start + i + 1])
 			return (0);
