@@ -6,36 +6,28 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/28 18:10:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/29 00:15:43 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-char	*get_action_name(t_action act)
+t_action	g_values[12] = {SWAP_A, SWAP_B, PUSH_A, PUSH_B, ROTATE_A, ROTATE_B,
+	REVERSE_ROTATE_A, REVERSE_ROTATE_B, SS, RR, RRR, NOTHING}; 
+char	*g_names[12] = {"sa\n", "sb\n", "pa\n", "pb\n", "ra\n", "rb\n", "rra\n",
+		"rrb\n", "ss\n", "rr\n", "rrr\n", NULL};
+
+char	*get_name(t_action act)
 {
-	if (act == SWAP_A)
-		return ("sa\n");
-	else if (act == SWAP_B)
-		return ("sb\n");
-	else if (act == PUSH_A)
-		return ("pa\n");
-	else if (act == PUSH_B)
-		return ("pb\n");
-	else if (act == ROTATE_A)
-		return ("ra\n");
-	else if (act == ROTATE_B)
-		return ("rb\n");
-	else if (act == REVERSE_ROTATE_A)
-		return ("rra\n");
-	else if (act == REVERSE_ROTATE_B)
-		return ("rrb\n");
-	else if (act == SS)
-		return ("ss\n");
-	else if (act == RR)
-		return ("rr\n");
-	else if (act == RRR)
-		return ("rrr\n");
+	int	i;
+
+	i = 0;
+	while (i < 12)
+	{
+		if (act == (g_values)[i])
+			return ((g_names)[i]);
+		i++;
+	}
 	return (NULL);
 }
 
@@ -45,11 +37,11 @@ void	print_solution(t_operations **ope)
 	t_operations	*tmp;
 	char	*name;
 
-	simplify_operations(ope);
+	//simplify_operations(ope);
 	to_print = *ope;
 	while (to_print)
 	{
-		name = get_action_name(to_print->act);
+		name = get_name(to_print->act);
 		if (name != NULL)
 			ft_putstr_fd(name, 1);
 		tmp = to_print;
@@ -58,7 +50,7 @@ void	print_solution(t_operations **ope)
 	}
 }
 
-void	sort_pile_until_five_elem(t_piles *piles, t_operations **ope)
+void	sort_until_five(t_piles *piles, t_operations **ope)
 {
 	int	middle;
 	int	order;
@@ -95,26 +87,10 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 	if (order == TRUE_A)
 		return (0);
 	if (piles->size_a <= 5)
-		sort_pile_until_five_elem(piles, ope);
+		sort_until_five(piles, ope);
 	else
-	{
 		first_quick_sort(piles, ope, piles->size_a);
-		second_quick_sort(piles, ope, piles->size_b);
-		while (piles->size_b)
-			push_a(piles, ope);
-	}
 	print_solution(ope);
-/*	int	i = 0;
-	while (i < piles->size_a + piles->size_b)
-	{
-		if (i < piles->size_a)
-			printf("%i in a, ", piles->content[i]);
-		else
-			printf("%i in b, ", piles->content[i]);
-		i++;
-		if (i == piles->size_a + piles->size_b)
-			printf("\n");
-	}*/
 	if (is_in_order(piles) != TRUE_A || piles->size_b != 0)
 		printf("ERROR\n");
 	return (0);
