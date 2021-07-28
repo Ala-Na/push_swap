@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/27 22:59:13 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/28 18:10:43 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 			push_a(piles, ope);
 	}
 	print_solution(ope);
-	/*int	i = 0;
+/*	int	i = 0;
 	while (i < piles->size_a + piles->size_b)
 	{
 		if (i < piles->size_a)

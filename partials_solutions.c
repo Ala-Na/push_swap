@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 11:15:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/27 16:06:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/28 12:24:38 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	sort_top_b(t_piles *piles, t_operations **ope, int size)
 		sort_short_pile_b(piles, piles->size_a, ope);
 	else if (size <= 2)
 	{
-		if (piles->content[piles->size_a] > piles->content[piles->size_a + 1])
+		if (piles->content[piles->size_a] < piles->content[piles->size_a + 1])
 			swap_b(piles, ope);
 	}
 	else
