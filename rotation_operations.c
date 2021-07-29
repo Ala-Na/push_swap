@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:37:56 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/28 18:11:39 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/29 10:55:43 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	rotate_a(t_piles *lst, t_operations **ope)
 	}
 	lst->content[lst->size_a - 1] = tmp_1;
 	add_op(ope, new_op(ROTATE_A));
-	//printf("ra\n");
 }
 
 void	rotate_b(t_piles *lst, t_operations **ope)
@@ -53,7 +52,6 @@ void	rotate_b(t_piles *lst, t_operations **ope)
 	}
 	lst->content[lst->size_a + lst->size_b - 1] = tmp_1;
 	add_op(ope, new_op(ROTATE_B));
-	//printf("rb\n");
 }
 
 void	reverse_rotate_a(t_piles *lst, t_operations **ope)
@@ -75,7 +73,6 @@ void	reverse_rotate_a(t_piles *lst, t_operations **ope)
 		}
 		lst->content[0] = tmp_1;
 		add_op(ope, new_op(REVERSE_ROTATE_A));
-		//printf("rra\n");
 	}
 }
 
@@ -98,6 +95,5 @@ void	reverse_rotate_b(t_piles *lst, t_operations **ope)
 		}
 		lst->content[lst->size_a] = tmp_1;
 		add_op(ope, new_op(REVERSE_ROTATE_B));
-		//printf("rrb\n");
 	}
 }

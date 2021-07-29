@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/29 00:00:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/29 11:27:01 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,38 @@ void	print_solution(t_operations **ope);
 
 void	sort_until_five(t_piles *piles, t_operations **ope);
 
+
+int		first_quick_sort(t_piles *piles, t_operations **ope, int size);
+int		second_quick_sort(t_piles *piles, t_operations **ope, int size);
+int		get_pivot(t_piles *piles, int start, int end);
+
+/*
+** Functions to check if order inside a pile is strictly ascending (for a),
+** or descending (for b).
+** Function is_sorted check order in whole pile for both piles.
+** Function is_part_sorted check order in either a or b (depending if is_b
+** value is either 0 or 1) for the len first elements.
+** Both returns a t_order enum value.
+*/
+t_order	is_sorted(t_piles *lst);
+t_order	is_part_sorted(t_piles *lst, int is_b, int len);
+
+/*
+** Functions to transform values to tags value from 0 to number
+** of elements. A merge sort is used.
+*/
+t_piles	*tags_values(int *lst, int size);
+void	transform_valus_to_tags(t_tags *tags);
+int		merge_sort(int *lst, int start, int end);
+int		merge(int *lst, int start, int center, int end);
+int		*init_sub_arrays(int *lst, int *tmp, int start, int end);
+int		free_sub_arrays(int *tmp_1, int *tmp_2);
+
 /*
 ** Operations functions.
-** When one is performed, the information is stocked inside a
-** t_operations structure.
+** When one is performed, its name is stocked inside a
+** t_operations structure and changed are applied to a t_piles
+** structure.
 */
 void	swap_a(t_piles *lst, t_operations **ope);
 void	swap_b(t_piles *lst, t_operations **ope);

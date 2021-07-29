@@ -6,12 +6,16 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 14:00:59 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/19 21:24:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/29 11:17:25 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/*
+** Transform values to their tags equivalents thanks to
+** their sorted order.
+*/
 void	transform_values_to_tags(t_tags *tags)
 {
 	int	i;
@@ -34,7 +38,15 @@ void	transform_values_to_tags(t_tags *tags)
 	}
 }
 
-t_piles	*tag_values(int *list, int size)
+/*
+** Function to transform the received list of int to
+** a t_piles structure with values from 0 to number of elements.
+** A t_tags structure is made and elements are sorted to
+** obtain each tag corresponding to each value. 
+** The non-ordered array of 0 to number of elements
+** is the future t_piles->content.
+*/
+t_piles	*tag_values(int *lst, int size)
 {
 	t_piles	*piles;
 	t_tags	*tags;
@@ -42,11 +54,11 @@ t_piles	*tag_values(int *list, int size)
 	tags = malloc(sizeof(*tags));
 	if (!tags)
 		return (NULL);
-	tags->tags = copy_array(list, size);
+	tags->tags = copy_array(lst, size);
 	tags->size = size;
-	if (!tags->tags || merge_sort(list, 0, size - 1) == -1)
+	if (!tags->tags || merge_sort(lst, 0, size - 1) == -1)
 		return (NULL);
-	tags->values = list;
+	tags->values = lst;
 	transform_values_to_tags(tags);
 	piles = malloc(sizeof(*piles));
 	if (!piles)
