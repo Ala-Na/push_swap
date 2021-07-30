@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/29 00:15:43 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/30 15:58:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	sort_until_five(t_piles *piles, t_operations **ope)
 	int	order;
 
 	middle = (piles->size_a + piles->size_b) / 2;
-	order = is_in_order(piles);
+	order = is_sorted(piles);
 	while (!(order == TRUE_A && piles->size_b == 0))
 	{
 		if (order == TRUE_AB && piles->size_b > 0)
@@ -68,13 +68,13 @@ void	sort_until_five(t_piles *piles, t_operations **ope)
 		else
 		{
 			sort_top_piles(piles, middle, ope, -1);
-			order = is_in_order(piles);
+			order = is_sorted(piles);
 			if (order != TRUE_AB && order != TRUE_A)
 				reverse_rotate_a(piles, ope);
 			if (order != TRUE_AB && order != TRUE_B)
 				reverse_rotate_b(piles, ope);
 		}
-		order = is_in_order(piles);
+		order = is_sorted(piles);
 	}
 }
 
@@ -82,7 +82,7 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 {
 	int	order;
 
-	order = is_in_order(piles);
+	order = is_sorted(piles);
 	*ope = NULL;
 	if (order == TRUE_A)
 		return (0);
@@ -90,8 +90,9 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 		sort_until_five(piles, ope);
 	else
 		first_quick_sort(piles, ope, piles->size_a);
+	simplify_operations(ope);
 	print_solution(ope);
-	if (is_in_order(piles) != TRUE_A || piles->size_b != 0)
+	if (is_sorted(piles) != TRUE_A || piles->size_b != 0)
 		printf("ERROR\n");
 	return (0);
 }

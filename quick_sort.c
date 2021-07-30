@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 16:42:50 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/28 18:08:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/30 15:52:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	second_quick_sort(t_piles *piles, t_operations **ope, int size)
 //	print_piles(piles);
 	nb_elem = size;
 	deplaced_elems = 0;
-	if (size > 1 &&  partial_order(piles, 1, size) == 1)
+	if (size > 1 &&  is_part_sorted(piles, 1, size) == 1)
 	{
 		while (size--)
 			push_a(piles, ope);
@@ -98,7 +98,7 @@ int	first_quick_sort(t_piles *piles, t_operations **ope, int size)
 //	printf("enter first with size %i\n", size);
 //	print_piles(piles);
 	deplaced_elems = 0;
-	if (partial_order(piles, 0, size) == 1 || size <= 1)
+	if (is_part_sorted(piles, 0, size) == 1 || size <= 1)
 	{
 //		print_piles(piles);
 //		printf("end of first with size %i\n", size);

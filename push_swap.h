@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/29 11:27:01 by anadege          ###   ########.fr       */
+/*   Updated: 2021/07/30 17:20:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ void	print_solution(t_operations **ope);
 
 void	sort_until_five(t_piles *piles, t_operations **ope);
 
+void	sort_top_a(t_piles *piles, t_operations **ope, int size);
+void	sort_top_b(t_piles *piles, t_operations **ope, int size);
+
+void	sort_top_piles(t_piles *piles, int middle, t_operations **ope, int define_case);
+void	sort_shorts_piles(t_piles *piles, t_operations **ope);
 
 int		first_quick_sort(t_piles *piles, t_operations **ope, int size);
 int		second_quick_sort(t_piles *piles, t_operations **ope, int size);
@@ -120,12 +125,13 @@ t_order	is_part_sorted(t_piles *lst, int is_b, int len);
 ** Functions to transform values to tags value from 0 to number
 ** of elements. A merge sort is used.
 */
-t_piles	*tags_values(int *lst, int size);
+t_piles	*tag_values(int *lst, int size);
 void	transform_valus_to_tags(t_tags *tags);
 int		merge_sort(int *lst, int start, int end);
 int		merge(int *lst, int start, int center, int end);
 int		*init_sub_arrays(int *lst, int *tmp, int start, int end);
 int		free_sub_arrays(int *tmp_1, int *tmp_2);
+int		*copy_array(int *lst, int size);
 
 /*
 ** Operations functions.
@@ -151,6 +157,15 @@ int		get_list_size_from_string(char *str);
 int		get_list_from_single_string(char *str, int **list_a, int *size_a);
 int		check_and_extract_list(int argc, char **argv, int **list_a,
 			int *size_a);
+
+/*
+** Functions for manipulation of t_operations structure.
+*/
+t_operations	*new_op(t_action action);
+void	add_op(t_operations **ope, t_operations *new);
+void	simplify_operations(t_operations **ope);
+void	simplify_rotations(t_operations *curr, t_operations *seek);
+void	replace_action(t_operations **curr, t_operations **seek, t_action action);
 
 /*
 ** Utilitary functions
