@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 11:15:17 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/28 12:24:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/02 17:51:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ void	sort_short_pile_a(t_piles *piles, t_operations **ope)
 
 void	sort_shorts_piles(t_piles *piles, t_operations **ope)
 {
-	int middle = (piles->size_a + piles->size_b) / 2;
-
 	if (piles->size_a >= 2 && piles->size_a <= 3)
 		sort_short_pile_a(piles, ope);
 	if (piles->size_b >= 2 && piles->size_b <= 3)
@@ -125,30 +123,52 @@ void	sort_top_piles(t_piles *piles, int middle, t_operations **ope, int define_c
 
 void	sort_top_a(t_piles *piles, t_operations **ope, int size)
 {
-	if (piles->size_a <= 3)
-		sort_short_pile_a(piles, ope);
-	else if (size <= 2)
+	if (size <= 2 || piles->size_a <= 2)
 	{
-		if (piles->content[0] > piles->content[1])
+		if (size == 2 && piles->content[0] > piles->content[1])
 			swap_a(piles, ope);
 	}
-	else
+	else if (size == 3 && piles->size_a == 3)
+		sort_short_pile_a(piles, ope);
+	else if (size == 3) 
 	{
-		sort_top_piles(piles, -1, ope, 0);
+		while (size != 3 || is_part_sorted(piles, 0, size) != TRUE_A)
+		{
+			if (piles->content[0] > piles->content[1])
+				swap_a(piles, ope);
+			else if (size == 3 && (piles->content[2] < piles->content[0]
+				|| piles->content[2] < piles->content[1]) && size--)
+				push_b(piles, ope);
+			else if (size++)
+				push_a(piles, ope);
+		}
 	}
 }
 
 void	sort_top_b(t_piles *piles, t_operations **ope, int size)
 {
-	if (piles->size_b <= 3)
-		sort_short_pile_b(piles, piles->size_a, ope);
-	else if (size <= 2)
+	int	start;
+
+	if (size <= 2 || piles->size_b <= 2)
 	{
-		if (piles->content[piles->size_a] < piles->content[piles->size_a + 1])
+		if (size == 2 && piles->content[piles->size_a] < piles->content[piles->size_a + 1])
 			swap_b(piles, ope);
+		while (size != 0 && size--)
+			push_a(piles, ope);
 	}
-	else
+	else if (size == 3)
 	{
-		sort_top_piles(piles, -1, ope, 1);
+		while (size != 0 || is_part_sorted(piles, 1, size) != TRUE_B)
+		{
+			start = piles->size_a;
+			if (size == 1 && piles->content[0] > piles->content[1])
+				swap_a(piles, ope);
+			else if ((size == 1 && size--)
+					|| (piles->content[start] > piles->content[start + 1] && size--)
+					|| (size == 3 && piles->content[start] > piles->content[start + 2] && size--))
+				push_a(piles, ope);
+			else
+				swap_b(piles, ope);
+		}
 	}
 }
