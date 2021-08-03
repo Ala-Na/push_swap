@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/02 17:49:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 11:40:28 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,21 @@ int		sort_piles(t_piles *piles, t_operations **ope);
 char	*get_action_name(t_action act);
 void	print_solution(t_operations **ope);
 
-void	sort_until_five(t_piles *piles, t_operations **ope);
-
+/*
+** Functions to sort piles of 1 to 3 elements.
+*/
+void	sort_short_pile_a(t_piles *piles, t_operations **ope);
 void	sort_top_a(t_piles *piles, t_operations **ope, int size);
 void	sort_top_b(t_piles *piles, t_operations **ope, int size);
 
-void	sort_top_piles(t_piles *piles, int middle, t_operations **ope, int define_case);
-void	sort_shorts_piles(t_piles *piles, t_operations **ope);
-
-int		first_quick_sort(t_piles *piles, t_operations **ope, int size);
-int		second_quick_sort(t_piles *piles, t_operations **ope, int size);
+/*
+** Functions to sort piles of indefined number of elements.
+** This sort is similar to a recursive quick sort algorithm
+** using mediane as pivot.
+*/
+int		a_half_sort(t_piles *piles, t_operations **ope, int size);
+int		b_half_sort(t_piles *piles, t_operations **ope, int size);
+int		return_res(t_piles *piles, t_operations **ope, int old_size);
 int		get_pivot(t_piles *piles, int start, int end);
 
 /*

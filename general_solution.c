@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 14:47:06 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/02 17:50:21 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 11:51:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_solution(t_operations **ope)
 	t_operations	*tmp;
 	char	*name;
 
-	//simplify_operations(ope);
+	simplify_operations(ope);
 	to_print = *ope;
 	while (to_print)
 	{
@@ -50,34 +50,6 @@ void	print_solution(t_operations **ope)
 	}
 }
 
-void	sort_until_five(t_piles *piles, t_operations **ope)
-{
-	int	middle;
-	int	order;
-
-	middle = (piles->size_a + piles->size_b) / 2;
-	order = is_sorted(piles);
-	while (!(order == TRUE_A && piles->size_b == 0))
-	{
-		if (order == TRUE_AB && piles->size_b > 0)
-			push_a(piles, ope);
-		if (order != TRUE_AB && ((order != TRUE_A && (piles->size_a == 3 || piles->size_a == 2)) || (order != TRUE_B && (piles->size_b == 3 || piles->size_b == 2))))
-			sort_shorts_piles(piles, ope);
-		else if (order != TRUE_AB  && order != TRUE_A && piles->size_a > 0 && piles->content[0] < middle)
-			push_b(piles, ope);
-		else
-		{
-			sort_top_piles(piles, middle, ope, -1);
-			order = is_sorted(piles);
-			if (order != TRUE_AB && order != TRUE_A)
-				reverse_rotate_a(piles, ope);
-			if (order != TRUE_AB && order != TRUE_B)
-				reverse_rotate_b(piles, ope);
-		}
-		order = is_sorted(piles);
-	}
-}
-
 int	sort_piles(t_piles *piles, t_operations **ope)
 {
 	int	order;
@@ -86,13 +58,10 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 	*ope = NULL;
 	if (order == TRUE_A)
 		return (0);
-	if (piles->size_a <= 5)
-		sort_until_five(piles, ope);
-	else
-		first_quick_sort(piles, ope, piles->size_a);
+	a_half_sort(piles, ope, piles->size_a);
 	simplify_operations(ope);
 	print_solution(ope);
 	if (is_sorted(piles) != TRUE_A || piles->size_b != 0)
-		printf("ERROR\n");
+		ft_putstr_fd("ERROR\n", 2);
 	return (0);
 }
