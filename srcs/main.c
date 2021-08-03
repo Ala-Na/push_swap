@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/03 23:02:07 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 23:58:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	main(int argc, char **argv)
 		|| !list_a || (size_a == 1 && list_a))
 	{
 		free_cleaning(NULL, NULL, list_a, 0);
-		if (size_a == 1)
+		if (size_a == 1 || argc < 2)
 			return (0);
 		ft_putstr_fd("Error\n", 2);
 		return (1);
