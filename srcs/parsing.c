@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 15:21:49 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/03 15:59:59 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 23:36:26 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	check_duplicate(int *list_a, int size_a)
 	return (0);
 }
 
-int	get_list_from_mult_strings(char **arr_str, int **list_a, int *size_a)
+int	get_list_from_mult_strings(char **arr_str, int **list_a, int *size_a,
+		int *check_limit)
 {
 	int	arr_i;
 	int	str_i;
@@ -50,7 +51,7 @@ int	get_list_from_mult_strings(char **arr_str, int **list_a, int *size_a)
 				return (-1);
 			str_i++;
 		}
-		(*list_a)[arr_i] = ft_atoi(arr_str[arr_i]);
+		(*list_a)[arr_i] = ft_atoi_like(arr_str[arr_i], check_limit);
 		arr_i++;
 	}
 	return (0);
@@ -85,7 +86,8 @@ int	get_list_size_from_string(char *str)
 	return (size_list);
 }
 
-int	get_list_from_single_string(char *str, int **list_a, int *size_a)
+int	get_list_from_single_string(char *str, int **list_a, int *size_a,
+		int *check_limit)
 {
 	int	i;
 	int	list_i;
@@ -107,7 +109,7 @@ int	get_list_from_single_string(char *str, int **list_a, int *size_a)
 		while (str[i] && (ft_isdigit(str[i]) || str[i] == '-'))
 		{
 			if (begin_number++ == 0 && list_i < (*size_a))
-				(*list_a)[list_i++] = ft_atoi(str + i);
+				(*list_a)[list_i++] = ft_atoi_like(str + i, check_limit);
 			i++;
 		}
 	}
@@ -116,18 +118,23 @@ int	get_list_from_single_string(char *str, int **list_a, int *size_a)
 
 int	check_and_extract_list(int argc, char **argv, int **list_a, int *size_a)
 {
+	int	check_limit;
+
+	check_limit = 0;
 	if (argc == 2)
 	{
-		if (get_list_from_single_string(argv[1], list_a, size_a) == -1)
+		if (get_list_from_single_string(argv[1], list_a, size_a,
+				&check_limit) == -1)
 			return (-1);
 	}
 	else
 	{
 		*size_a = argc - 1;
-		if (get_list_from_mult_strings(argv + 1, list_a, size_a) == -1)
+		if (get_list_from_mult_strings(argv + 1, list_a, size_a,
+				&check_limit) == -1)
 			return (-1);
 	}
-	if (check_duplicate(*list_a, *size_a) == -1)
+	if (check_limit == -1 || check_duplicate(*list_a, *size_a) == -1)
 		return (-1);
 	return (0);
 }

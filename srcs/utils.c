@@ -6,46 +6,56 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 15:42:53 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/15 14:09:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 23:51:55 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	return_value(long int res, long int sign)
+static int	return_value(long int res, long int sign,
+		int *check_limit, int cursor)
 {
-	if (res < 0 && sign > 0)
+	if (cursor > 10 || ((res < 0 || res > INT_MAX) && sign > 0))
+	{
+		*check_limit = -1;
 		return (-1);
-	else if (res < 0 && sign < 0)
+	}
+	else if ((res < 0 || res * sign < INT_MIN) && sign < 0)
+	{
+		*check_limit = -1;
 		return (0);
+	}
 	res *= sign;
 	return ((int)res);
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi_like(const char *nptr, int *check_limit)
 {
 	unsigned int	nbr;
 	long int		res;
 	long int		sign;
+	int				i;
+	int				start;
 
+	i = 0;
 	nbr = 0;
 	res = 0;
 	sign = 1;
-	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
+	while (nptr[i] == 32 || (nptr[i] >= 9 && nptr[i] <= 13))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		if (*nptr == '-')
+		if (nptr[i] == '-')
 			sign = -1;
-		nptr++;
+		i++;
 	}
-	while (*nptr >= '0' && *nptr <= '9')
+	start = i;
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		nbr = *nptr - '0';
+		nbr = nptr[i++] - '0';
 		res = res * 10 + nbr;
-		nptr++;
 	}
-	return ((int)return_value(res, sign));
+	return ((int)return_value(res, sign, check_limit, i - start));
 }
 
 void	ft_putstr_fd(char *s, int fd)

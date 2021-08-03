@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/03 15:39:52 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 23:33:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 /*
 ** Enum to define the return value of is_in_order function.
@@ -157,10 +158,10 @@ void			reverse_rotate_b(t_piles *lst, t_operations **ope);
 */
 int				check_duplicate(int *list_a, int size_a);
 int				get_list_from_mult_strings(char **arr_str,
-					int **list_a, int *size_a);
+					int **list_a, int *size_a, int *check_limit);
 int				get_list_size_from_string(char *str);
 int				get_list_from_single_string(char *str, int **list_a,
-					int *size_a);
+					int *size_a, int *check_limit);
 int				check_and_extract_list(int argc, char **argv, int **list_a,
 					int *size_a);
 
@@ -177,7 +178,7 @@ void			replace_action(t_operations **curr, t_operations **seek,
 /*
 ** Utilitary functions
 */
-int				ft_atoi(const char *nptr);
+int				ft_atoi_like(const char *nptr, int *check_limit);
 void			ft_putstr_fd(char *s, int fd);
 int				ft_isdigit(int c);
 

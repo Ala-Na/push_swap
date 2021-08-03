@@ -6,32 +6,28 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/03 15:47:49 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 23:02:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /*
-** Globals variables used in get_name function.
-*/
-t_action	g_values[12] = {SWAP_A, SWAP_B, PUSH_A, PUSH_B, ROTATE_A, ROTATE_B,
-	REVERSE_ROTATE_A, REVERSE_ROTATE_B, SS, RR, RRR, NOTHING};
-char		*g_names[12] = {"sa\n", "sb\n", "pa\n", "pb\n", "ra\n", "rb\n", "rra\n",
-		"rrb\n", "ss\n", "rr\n", "rrr\n", NULL};
-
-/*
 ** Function to get the name of an operation, according it's t_action value.
 */
 char	*get_name(t_action act)
 {
-	int	i;
+	int				i;
+	const t_action	values[12] = {SWAP_A, SWAP_B, PUSH_A, PUSH_B, ROTATE_A,
+		ROTATE_B, REVERSE_ROTATE_A, REVERSE_ROTATE_B, SS, RR, RRR, NOTHING};
+	const char		*names[12] = {"sa\n", "sb\n", "pa\n", "pb\n", "ra\n",
+		"rb\n", "rra\n", "rrb\n", "ss\n", "rr\n", "rrr\n", NULL};
 
 	i = 0;
 	while (i < 12)
 	{
-		if (act == (g_values)[i])
-			return ((g_names)[i]);
+		if (act == (values)[i])
+			return ((char *)(names)[i]);
 		i++;
 	}
 	return (NULL);
