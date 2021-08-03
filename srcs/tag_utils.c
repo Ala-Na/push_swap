@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 15:52:29 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/29 11:27:04 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 15:31:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	merge(int *lst, int start, int center, int end)
 	i = 0;
 	j = 0;
 	k = start;
-	left = init_sub_arrays(lst, left, start, center - start + 1);
-	right = init_sub_arrays(lst, right, center + 1, end - center);
+	left = init_sub_arrays(lst, start, center - start + 1);
+	right = init_sub_arrays(lst, center + 1, end - center);
 	while (left && right && i < center - start + 1 && j < end - center)
 	{
 		if (left[i] <= right[j])
@@ -67,7 +67,7 @@ int	merge(int *lst, int start, int center, int end)
 ** Sub-function of the merge sort recursive algortihm to malloc
 ** and fill each sub-array.
 */
-int	*init_sub_arrays(int *lst, int *tmp, int start, int end)
+int	*init_sub_arrays(int *lst, int start, int end)
 {
 	int	i;
 	int	*sub_array;

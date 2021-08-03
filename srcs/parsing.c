@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 15:21:49 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/15 22:30:19 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 15:59:59 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,6 @@ int	get_list_from_single_string(char *str, int **list_a, int *size_a)
 
 int	check_and_extract_list(int argc, char **argv, int **list_a, int *size_a)
 {
-	int	i;
-
-	i = 1;
 	if (argc == 2)
 	{
 		if (get_list_from_single_string(argv[1], list_a, size_a) == -1)

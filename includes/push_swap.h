@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/03 11:40:28 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 15:39:52 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
-// POUR LES TESTS SEULEMENT :
-# include <stdio.h>
 
 /*
 ** Enum to define the return value of is_in_order function.
@@ -79,7 +76,6 @@ typedef struct s_tags
 {
 	int	*values;
 	int	*tags;
-	int	size;
 }	t_tags;
 
 /*
@@ -87,33 +83,36 @@ typedef struct s_tags
 */
 typedef struct s_operations
 {
-	t_action	act;
+	t_action			act;
 	struct s_operations	*next;
 }	t_operations;
 
 /*
-** 
+** Functions in main file. 
+** Initialize sort, print solution and clean if needed.
 */
-int		sort_piles(t_piles *piles, t_operations **ope);
-char	*get_action_name(t_action act);
-void	print_solution(t_operations **ope);
+int				sort_piles(t_piles *piles, t_operations **ope);
+char			*get_action_name(t_action act);
+void			browse_solution(t_operations **ope, int print);
+void			free_cleaning(t_piles *piles, t_operations **ope,
+					int *list, int error);
 
 /*
 ** Functions to sort piles of 1 to 3 elements.
 */
-void	sort_short_pile_a(t_piles *piles, t_operations **ope);
-void	sort_top_a(t_piles *piles, t_operations **ope, int size);
-void	sort_top_b(t_piles *piles, t_operations **ope, int size);
+void			sort_short_pile_a(t_piles *piles, t_operations **ope);
+void			sort_top_a(t_piles *piles, t_operations **ope, int size);
+void			sort_top_b(t_piles *piles, t_operations **ope, int size);
 
 /*
 ** Functions to sort piles of indefined number of elements.
 ** This sort is similar to a recursive quick sort algorithm
 ** using mediane as pivot.
 */
-int		a_half_sort(t_piles *piles, t_operations **ope, int size);
-int		b_half_sort(t_piles *piles, t_operations **ope, int size);
-int		return_res(t_piles *piles, t_operations **ope, int old_size);
-int		get_pivot(t_piles *piles, int start, int end);
+int				a_half_sort(t_piles *piles, t_operations **ope, int size);
+int				b_half_sort(t_piles *piles, t_operations **ope, int size);
+int				return_res(t_piles *piles, t_operations **ope, int old_size);
+int				get_pivot(t_piles *piles, int start, int end);
 
 /*
 ** Functions to check if order inside a pile is strictly ascending (for a),
@@ -123,20 +122,20 @@ int		get_pivot(t_piles *piles, int start, int end);
 ** value is either 0 or 1) for the len first elements.
 ** Both returns a t_order enum value.
 */
-t_order	is_sorted(t_piles *lst);
-t_order	is_part_sorted(t_piles *lst, int is_b, int len);
+t_order			is_sorted(t_piles *lst);
+t_order			is_part_sorted(t_piles *lst, int is_b, int len);
 
 /*
 ** Functions to transform values to tags value from 0 to number
 ** of elements. A merge sort is used.
 */
-t_piles	*tag_values(int *lst, int size);
-void	transform_valus_to_tags(t_tags *tags);
-int		merge_sort(int *lst, int start, int end);
-int		merge(int *lst, int start, int center, int end);
-int		*init_sub_arrays(int *lst, int *tmp, int start, int end);
-int		free_sub_arrays(int *tmp_1, int *tmp_2);
-int		*copy_array(int *lst, int size);
+t_piles			*tag_values(int *lst, int size);
+void			transform_values_to_tags(t_tags *tags, int size);
+int				merge_sort(int *lst, int start, int end);
+int				merge(int *lst, int start, int center, int end);
+int				*init_sub_arrays(int *lst, int start, int end);
+int				free_sub_arrays(int *tmp_1, int *tmp_2);
+int				*copy_array(int *lst, int size);
 
 /*
 ** Operations functions.
@@ -144,39 +143,42 @@ int		*copy_array(int *lst, int size);
 ** t_operations structure and changed are applied to a t_piles
 ** structure.
 */
-void	swap_a(t_piles *lst, t_operations **ope);
-void	swap_b(t_piles *lst, t_operations **ope);
-void	push_a(t_piles *lst, t_operations **ope);
-void	push_b(t_piles *lst, t_operations **ope);
-void	rotate_a(t_piles *lst, t_operations **ope);
-void	rotate_b(t_piles *lst, t_operations **ope);
-void	reverse_rotate_a(t_piles *lst, t_operations **ope);
-void	reverse_rotate_b(t_piles *lst, t_operations **ope);
+void			swap_a(t_piles *lst, t_operations **ope);
+void			swap_b(t_piles *lst, t_operations **ope);
+void			push_a(t_piles *lst, t_operations **ope);
+void			push_b(t_piles *lst, t_operations **ope);
+void			rotate_a(t_piles *lst, t_operations **ope);
+void			rotate_b(t_piles *lst, t_operations **ope);
+void			reverse_rotate_a(t_piles *lst, t_operations **ope);
+void			reverse_rotate_b(t_piles *lst, t_operations **ope);
 
 /*
 ** Parsing functions
 */
-int		check_duplicate(int *list_a, int size_a);
-int		get_list_from_mult_strings(char **arr_str, int **list_a, int *size_a);
-int		get_list_size_from_string(char *str);
-int		get_list_from_single_string(char *str, int **list_a, int *size_a);
-int		check_and_extract_list(int argc, char **argv, int **list_a,
-			int *size_a);
+int				check_duplicate(int *list_a, int size_a);
+int				get_list_from_mult_strings(char **arr_str,
+					int **list_a, int *size_a);
+int				get_list_size_from_string(char *str);
+int				get_list_from_single_string(char *str, int **list_a,
+					int *size_a);
+int				check_and_extract_list(int argc, char **argv, int **list_a,
+					int *size_a);
 
 /*
 ** Functions for manipulation of t_operations structure.
 */
 t_operations	*new_op(t_action action);
-void	add_op(t_operations **ope, t_operations *new);
-void	simplify_operations(t_operations **ope);
-void	simplify_rotations(t_operations *curr, t_operations *seek);
-void	replace_action(t_operations **curr, t_operations **seek, t_action action);
+void			add_op(t_operations **ope, t_operations *new);
+void			simplify_operations(t_operations **ope);
+void			simplify_rotations(t_operations *curr, t_operations *seek);
+void			replace_action(t_operations **curr, t_operations **seek,
+					t_action action);
 
 /*
 ** Utilitary functions
 */
-int		ft_atoi(const char *nptr);
-void	ft_putstr_fd(char *s, int fd);
-int		ft_isdigit(int c);
+int				ft_atoi(const char *nptr);
+void			ft_putstr_fd(char *s, int fd);
+int				ft_isdigit(int c);
 
 #endif

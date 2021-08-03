@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 14:00:59 by anadege           #+#    #+#             */
-/*   Updated: 2021/07/29 11:17:25 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/03 15:48:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 ** Transform values to their tags equivalents thanks to
 ** their sorted order.
 */
-void	transform_values_to_tags(t_tags *tags)
+void	transform_values_to_tags(t_tags *tags, int size)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < tags->size)
+	while (i < size)
 	{
 		j = 0;
-		while (j < tags->size)
+		while (j < size)
 		{
 			if (tags->tags[i] == tags->values[j])
 			{
@@ -55,18 +55,21 @@ t_piles	*tag_values(int *lst, int size)
 	if (!tags)
 		return (NULL);
 	tags->tags = copy_array(lst, size);
-	tags->size = size;
-	if (!tags->tags || merge_sort(lst, 0, size - 1) == -1)
-		return (NULL);
-	tags->values = lst;
-	transform_values_to_tags(tags);
 	piles = malloc(sizeof(*piles));
-	if (!piles)
+	tags->values = lst;
+	if (!piles || !tags->tags || merge_sort(lst, 0, size - 1) == -1)
+	{
+		if (piles)
+			free(piles);
+		if (tags->tags)
+			free(tags->tags);
+		free(tags);
 		return (NULL);
+	}
+	transform_values_to_tags(tags, size);
 	piles->content = tags->tags;
-	piles->size_a = tags->size;
+	piles->size_a = size;
 	piles->size_b = 0;
-	free(tags->values);
 	free(tags);
 	return (piles);
 }
