@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:53:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/04 18:19:26 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/04 23:20:41 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_piles
 t_order	is_sorted(t_piles *lst);
 void	init_piles(t_piles *piles, int *list_a, int size_a);
 void	free_piles(t_piles *piles, int *list_a);
-int		error(void);
+int		error(int i);
 
 int		read_instructions(char *buffer, t_piles *piles);
 int		get_instructions(t_piles *piles);

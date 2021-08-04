@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 00:05:57 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/04 18:18:44 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/04 23:20:04 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,15 @@ void	free_piles(t_piles *piles, int *list_a)
 		free(piles);
 }
 
-int	error(void)
+int	error(int i)
 {
-	ft_putstr_fd("KO\n", 2);
-	return (-1);
+	if (i == 1)
+	{
+		ft_putstr_fd("Error\n", 2);
+		return (-1);
+	}
+	ft_putstr_fd("KO\n", 1);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -73,13 +78,15 @@ int	main(int argc, char **argv)
 	if (check_and_extract_list(argc, argv, &list_a, &size_a) == -1 || !piles)
 	{
 		free_piles(piles, list_a);
-		return (error());
+		return (error(1));
 	}
 	init_piles(piles, list_a, size_a);
 	res = get_instructions(piles);
 	free_piles(piles, list_a);
-	if (res != 1)
-		return (error());
+	if (res == -1)
+		return (error(1));
+	else if (res == 0)
+		return (error(0));
 	ft_putstr_fd("OK\n", 1);
 	return (0);
 }

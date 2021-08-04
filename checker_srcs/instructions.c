@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:59:36 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/04 17:00:12 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/04 23:19:38 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	read_instructions(char *buffer, t_piles *piles)
 	}
 	if (buffer)
 		free(buffer);
-	return (-1);
+	return (0);
 }
 
 int	comp_to_op(char *buffer)
