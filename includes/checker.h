@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:53:52 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/04 23:20:41 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/07 16:04:36 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	free_piles(t_piles *piles, int *list_a);
 int		error(int i);
 
 int		read_instructions(char *buffer, t_piles *piles);
+void	fill_full_buffer(char *buffer, char **full_buffer);
 int		get_instructions(t_piles *piles);
-int		check_buffer(char *buffer);
+int		check_buffer(char *buffer, int start);
 int		comp_to_op(char *buffer);
 int		find_op(char *buffer, t_piles *piles);
 

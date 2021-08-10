@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 18:08:30 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/04 18:10:20 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/07 16:06:08 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,18 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[i++] = *s2++;
 	str[size] = 0;
 	return (str);
+}
+
+void	fill_full_buffer(char *buffer, char **full_buffer)
+{
+	char	*tmp;
+
+	if (*full_buffer == NULL)
+		*full_buffer = ft_strdup(buffer);
+	else
+	{
+		tmp = *full_buffer;
+		*full_buffer = ft_strjoin(*full_buffer, buffer);
+		free(tmp);
+	}
 }

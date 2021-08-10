@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 16:59:36 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/04 23:19:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/07 16:07:35 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,29 +86,19 @@ int	comp_to_op(char *buffer)
 	return (0);
 }
 
-int	check_buffer(char *buffer)
+int	check_buffer(char *buffer, int start)
 {
 	int	i;
-	int	y;
 
-	i = 0;
+	i = start;
 	while (buffer[i] != '\0')
 	{
-		if (comp_to_op(buffer) == 3)
+		if (comp_to_op(&buffer[i]) == 3)
 			i += 3;
-		else if (comp_to_op(buffer) == 4)
+		else if (comp_to_op(&buffer[i]) == 4)
 			i += 4;
 		else
-		{
-			y = i;
-			while (buffer[y] != '\0')
-				y++;
-			if (y - i < 4 || (y - i < 5 && buffer[i] == 'r'
-					&& buffer[i + 1] == 'r'))
-				return (1);
-			else
-				return (-1);
-		}
+			return (-1);
 	}
 	return (1);
 }
@@ -117,23 +107,19 @@ int	get_instructions(t_piles *piles)
 {
 	char			buffer[1024];
 	int				red;
+	int				total_red;
 	char			*full_buffer;
-	char			*tmp;
 
 	full_buffer = NULL;
 	red = read(0, buffer, 1023);
+	total_red = 0;
 	while (red > 0)
 	{
 		buffer[red] = '\0';
-		if (full_buffer == NULL)
-			full_buffer = ft_strdup(buffer);
-		else
-		{
-			tmp = full_buffer;
-			full_buffer = ft_strjoin(full_buffer, buffer);
-			free(tmp);
-		}
-		if (full_buffer == NULL || check_buffer(full_buffer) == -1)
+		total_red += red;
+		fill_full_buffer(buffer, &full_buffer);
+		if (full_buffer == NULL || check_buffer(full_buffer,
+				total_red - red) == -1)
 			return (-1);
 		red = read(0, buffer, 1023);
 	}
