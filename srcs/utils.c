@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 15:42:53 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/03 23:51:55 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/12 23:57:30 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	ft_atoi_like(const char *nptr, int *check_limit)
 	nbr = 0;
 	res = 0;
 	sign = 1;
+	start = 0;
 	while (nptr[i] == 32 || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
 	if (nptr[i] == '-' || nptr[i] == '+')
@@ -49,7 +50,8 @@ int	ft_atoi_like(const char *nptr, int *check_limit)
 			sign = -1;
 		i++;
 	}
-	start = i;
+	while (nptr[start] == '0')
+		start++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		nbr = nptr[i++] - '0';

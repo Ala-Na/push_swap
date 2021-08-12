@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/03 23:58:08 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/13 00:00:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	browse_solution(t_operations **ope, int print)
 		to_print = to_print->next;
 		free(tmp);
 	}
+	*ope = NULL;
 }
 
 /*
@@ -104,7 +105,6 @@ int	sort_piles(t_piles *piles, t_operations **ope)
 		return (-1);
 	simplify_operations(ope);
 	browse_solution(ope, 1);
-	free_cleaning(piles, NULL, NULL, 0);
 	return (0);
 }
 
@@ -112,16 +112,19 @@ int	main(int argc, char **argv)
 {
 	t_operations	*ope;
 	t_piles			*piles;
+	int				res;
 	int				*list_a;
 	int				size_a;
 
 	list_a = NULL;
 	size_a = 0;
-	if (argc < 2 || check_and_extract_list(argc, argv, &list_a, &size_a) == -1
-		|| !list_a || (size_a == 1 && list_a))
+	if (argc < 2)
+		return (0);
+	res = check_and_extract_list(argc, argv, &list_a, &size_a);
+	if (res == -1 || !list_a || (size_a == 1 && list_a))
 	{
 		free_cleaning(NULL, NULL, list_a, 0);
-		if (size_a == 1 || argc < 2)
+		if (size_a == 1 && res != -1)
 			return (0);
 		ft_putstr_fd("Error\n", 2);
 		return (1);
@@ -134,5 +137,6 @@ int	main(int argc, char **argv)
 			free_cleaning(piles, &ope, NULL, 0);
 		return (1);
 	}
+	free_cleaning(piles, NULL, NULL, 0);
 	return (0);
 }
