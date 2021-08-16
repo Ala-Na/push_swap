@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 15:21:49 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/13 11:25:24 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/16 12:08:53 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,8 @@ int	get_list_size_from_string(char *str)
 		while (str[i] && (ft_isdigit(str[i])
 				|| (begin_number == 0 && str[i] == '-')))
 		{
-			if (begin_number == 0)
-			{
-				size_list++;
+			if (begin_number == 0 && size_list++)
 				begin_number = 1;
-			}
 			i++;
 		}
 		if (str[i] && str[i] != ' ')
@@ -98,33 +95,24 @@ int	get_list_from_single_string(char *str, int **list_a, int *size_a,
 	int	begin_number;
 
 	i = 0;
-	list_i = 0;
 	check = 0;
-	*size_a = get_list_size_from_string(str);
-	if (*size_a == -1)
-		return (-1);
-	*list_a = malloc(sizeof(**list_a) * (*size_a));
-	if (!list_a)
+	if (init_get_list_from_single_string(str, list_a, &list_i, size_a) == -1)
 		return (-1);
 	while (str[i])
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
-		if (check == 0)
-			check = i;
-		begin_number = 0;
+		modify_check_and_begin_number(&check, &begin_number, i);
 		while (str[i] && (ft_isdigit(str[i]) || str[i] == '-'))
 		{
 			if (begin_number++ == 0 && list_i < (*size_a))
 				(*list_a)[list_i++] = ft_atoi_like(str + i, check_limit);
 			i++;
 		}
-		if (i == check || str[i] ==  '-')
+		if (i == check || str[i] == '-')
 			return (-1);
 	}
-	if (i == 0)
-		return (-1);
-	return (0);
+	return (return_value_get_list_from_single_string(i));
 }
 
 int	check_and_extract_list(int argc, char **argv, int **list_a, int *size_a)

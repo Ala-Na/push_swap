@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 15:42:53 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/13 00:27:38 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/16 11:29:07 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@ static int	return_value(long int res, long int sign,
 	return ((int)res);
 }
 
+static void	ft_check_sign(const char *nptr, long int *sign, int *i, int *start)
+{
+	if (nptr[*i] == '-' || nptr[*i] == '+')
+	{
+		if (nptr[*i] == '-')
+			*sign = -1;
+		*i += 1;
+		*start += 1;
+	}
+}
+
 int	ft_atoi_like(const char *nptr, int *check_limit)
 {
 	unsigned int	nbr;
@@ -44,13 +55,7 @@ int	ft_atoi_like(const char *nptr, int *check_limit)
 	start = 0;
 	while (nptr[i] == 32 || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i++;
-		start++;
-	}
+	ft_check_sign(nptr, &sign, &i, &start);
 	while (nptr[start] == '0')
 		start++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')

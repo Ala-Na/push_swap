@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 13:59:15 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/13 11:50:42 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/16 12:09:32 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-#include <stdio.h>
-
 
 /*
 ** Enum to define the return value of is_in_order function.
@@ -97,8 +95,8 @@ typedef struct s_operations
 int				sort_piles(t_piles *piles, t_operations **ope);
 char			*get_action_name(t_action act);
 void			browse_solution(t_operations **ope, int print);
-void			free_cleaning(t_piles *piles, t_operations **ope,
-					int *list, int error);
+int				free_cleaning(t_piles *piles, t_operations **ope,
+					int *list, int return_value);
 
 /*
 ** Functions to sort piles of 1 to 3 elements.
@@ -166,6 +164,11 @@ int				get_list_from_single_string(char *str, int **list_a,
 					int *size_a, int *check_limit);
 int				check_and_extract_list(int argc, char **argv, int **list_a,
 					int *size_a);
+int				init_get_list_from_single_string(char *str, int **list_a,
+					int *list_i, int *size_a);
+int				return_value_get_list_from_single_string(int i);
+void			modify_check_and_begin_number(int *check, int *begin_number,
+					int i);
 
 /*
 ** Functions for manipulation of t_operations structure.

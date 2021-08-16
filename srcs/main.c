@@ -6,7 +6,7 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 11:56:07 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/13 11:52:37 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/16 11:38:12 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	browse_solution(t_operations **ope, int print)
 ** Function to nicely free every malloc objects. 
 ** If error == 1, an error message is displayed on stderr.
 */
-void	free_cleaning(t_piles *piles, t_operations **ope, int *list, int error)
+int	free_cleaning(t_piles *piles, t_operations **ope, int *list,
+		int return_value)
 {
 	if (list)
 		free(list);
@@ -79,8 +80,9 @@ void	free_cleaning(t_piles *piles, t_operations **ope, int *list, int error)
 	}
 	if (ope)
 		browse_solution(ope, 0);
-	if (error == 1)
+	if (return_value == -1)
 		ft_putstr_fd("Error\n", 2);
+	return (return_value);
 }
 
 /*
@@ -123,20 +125,16 @@ int	main(int argc, char **argv)
 	res = check_and_extract_list(argc, argv, &list_a, &size_a);
 	if (res == -1 || !list_a || (size_a == 1 && list_a))
 	{
-		free_cleaning(NULL, NULL, list_a, 0);
+		free_cleaning(NULL, NULL, list_a, res);
 		if (size_a == 1 && res != -1)
 			return (0);
-		ft_putstr_fd("Error\n", 2);
 		return (1);
 	}
 	piles = tag_values(list_a, size_a);
 	free(list_a);
-	if (piles == NULL || sort_piles(piles, &ope) == -1)
-	{
-		if (piles != NULL)
-			free_cleaning(piles, &ope, NULL, 0);
+	if (piles == NULL)
 		return (1);
-	}
-	free_cleaning(piles, NULL, NULL, 0);
-	return (0);
+	if (sort_piles(piles, &ope) == -1)
+		return (free_cleaning(piles, &ope, NULL, 1));
+	return (free_cleaning(piles, NULL, NULL, 0));
 }

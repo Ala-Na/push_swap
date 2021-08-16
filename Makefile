@@ -6,12 +6,13 @@
 #    By: anadege <anadege@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/03 15:49:20 by anadege           #+#    #+#              #
-#    Updated: 2021/08/13 16:15:41 by anadege          ###   ########.fr        #
+#    Updated: 2021/08/16 12:02:32 by anadege          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	= ./srcs/main.c \
 		  ./srcs/parsing.c \
+		  ./srcs/parsing_utils.c \
 		  ./srcs/tag_values.c \
 		  ./srcs/tag_utils.c \
 		  ./srcs/quick_sort.c \
