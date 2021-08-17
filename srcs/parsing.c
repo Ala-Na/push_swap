@@ -6,12 +6,11 @@
 /*   By: anadege <anadege@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 15:21:49 by anadege           #+#    #+#             */
-/*   Updated: 2021/08/16 12:08:53 by anadege          ###   ########.fr       */
+/*   Updated: 2021/08/17 10:50:02 by anadege          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
 int	check_duplicate(int *list_a, int size_a)
 {
@@ -74,7 +73,7 @@ int	get_list_size_from_string(char *str)
 		while (str[i] && (ft_isdigit(str[i])
 				|| (begin_number == 0 && str[i] == '-')))
 		{
-			if (begin_number == 0 && size_list++)
+			if (begin_number == 0 && ++size_list)
 				begin_number = 1;
 			i++;
 		}
